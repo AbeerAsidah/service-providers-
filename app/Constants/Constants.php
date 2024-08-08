@@ -6,74 +6,61 @@ class Constants
 {
     const ADMIN_ROLE = 'admin';
     const USER_ROLE = 'user';
+    const TEACHER_ROLE = 'teacher';
     const MALE_GENDER = 'MALE';
     const FEMALE_GENDER = 'FEMALE';
 
     const SECTIONS_TYPES = [
-        'super' =>  [
+        'sections' => [
             'attributes' => [
                 'name',
                 'image',
-                'description',
             ],
-            'rules' =>
-            [
+            'rules' => [
                 'create' => [
-                    'name' => 'required|string',
-                    'image' => 'required|mimes:jpeg,png,jpg'
-                ],
-                'update' => [
-                    'name' => 'string',
-                    'image' => 'mimes:jpeg,png,jpg'
-                ]
-            ]
-
-        ],
-
-        'courses' => [
-            'attributes' => [
-                'name',
-                'image',
-                'is_free',
-                'description',
-            ],
-            'rules' =>
-            [
-                'create' => [
-                    'name' => 'required|string',
+                    'ar_name' => 'required',
+                    'en_name' => 'required',
                     'image' => 'required|mimes:jpeg,png,jpg',
-                    'is_free' => 'required|boolean',
-                    'description' => 'required|string',
                 ],
                 'update' => [
-                    'name' => 'string',
+                    'ar_name' => 'nullable',
+                    'en_name' => 'nullable',
                     'image' => 'mimes:jpeg,png,jpg',
-                    'is_free' => 'boolean',
-                    'description' => 'string',
                 ],
-            ]
-
+            ],
         ],
-
-        'course_sections' => [
+        'brands' => [
             'attributes' => [
                 'name',
                 'image',
-                'description',
             ],
-            'rules' =>
-            [
+            'rules' => [
                 'create' => [
-                    'name' => 'required|string',
-                    'image' => 'required|mimes:jpeg,png,jpg'
+                    'ar_name' => 'required',
+                    'en_name' => 'required',
+                    'image' => 'required|mimes:jpeg,png,jpg',
                 ],
                 'update' => [
-                    'name' => 'string',
-                    'image' => 'mimes:jpeg,png,jpg'
-                ]
-            ]
-
+                    'ar_name' => 'nullable',
+                    'en_name' => 'nullable',
+                    'image' => 'mimes:jpeg,png,jpg',
+                ],
+            ],
         ],
 
+    ];
+    const ORDER_STATUSES = [
+        'pending' => [
+            'ar' => 'معلق',
+            'en' => 'pending',
+        ],
+        'rejected' => [
+            'ar' => 'مرفوض',
+            'en' => 'rejected',
+        ],
+        'completed' => [
+            'ar' => 'مكتمل',
+            'en' => 'completed',
+        ],
     ];
 }

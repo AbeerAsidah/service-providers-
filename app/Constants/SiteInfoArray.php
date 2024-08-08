@@ -4,117 +4,212 @@ return  [
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-'hero_description' => [
-    'super_key' => 'hero' ,
-    'value' => [
-        'en' => '“Online education is electronically supported learning that relies on the Internet for teacher/student interaction and the distribution of class materials.”' ,
-        'ar' => '"يتم دعم التعليم عبر الإنترنت إلكترونيًا لتعلم ذلك يعتمد على الإنترنت للتفاعل بين المعلم والطالب توزيع المواد الدراسية."' ,
-    ]
-] ,
 
-'hours_count' => [
-    'super_key' => 'hero' ,
-    'value' => [
-        'en' => '60,000+' ,
-        'ar' => '60,000+' ,
-    ],
-] ,
+    /**@Images */
 
-'students_count' => [
-    'super_key' => 'hero' ,
-    'value' => [
-        'en' => '10,000+' ,
-        'ar' => '10,000+' ,
-    ],
-] ,
-
-'courses_count' => [
-    'super_key' => 'hero' ,
-    'value' => [
-        'en' => '12+' ,
-        'ar' => '12+' ,
-    ],
-] , 
-
-'section_header' => [
-    'super_key' => 'section' ,
-    'value' => [
-        'en' => [
- 
-            'description' => 'Discover a new of learning' ,
+    'image_slider1'=> [
+        'super_key' => 'slider1' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage1.png' ,
+            'ar' => 'SiteFiles/sliderImage1.png' ,
         ],
-        'ar' => [
+    ] ,
+    'image_slider2'=> [
+        'super_key' => 'slider1' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage1.png' ,
+            'ar' => 'SiteFiles/sliderImage1.png' ,
+        ],
+    ] ,
+    'image_slider3'=> [
+        'super_key' => 'slider1' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage1.png' ,
+            'ar' => 'SiteFiles/sliderImage1.png' ,
+        ],
+    ] ,
+    'image_slider4'=> [
+        'super_key' => 'slider1' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage1.png' ,
+            'ar' => 'SiteFiles/sliderImage1.png' ,
+        ],
+    ] ,
+    'image_logo'=> [
+        'super_key' => 'logo' ,
+        'value' => [
+            'en' => 'SiteFiles/logo.png' ,
+            'ar' => 'SiteFiles/logo.png' ,
+        ],
+    ] ,
+    'image_about'=> [
+        'super_key' => 'about' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage1.png' ,
+            'ar' => 'SiteFiles/sliderImage1.png' ,
+        ],
+    ] ,
+    'image_slider5'=> [
+        'super_key' => 'slider2' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage2.png' ,
+            'ar' => 'SiteFiles/sliderImage2.png' ,
+        ],
+    ] ,
+    'image_slider6'=> [
+        'super_key' => 'slider2' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage2.png' ,
+            'ar' => 'SiteFiles/sliderImage2.png' ,
+        ],
+    ] ,
+    'image_slider7'=> [
+        'super_key' => 'slider2' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage2.png' ,
+            'ar' => 'SiteFiles/sliderImage2.png' ,
+        ],
+    ] ,
+    'image_slider8'=> [
+        'super_key' => 'slider2' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage2.png' ,
+            'ar' => 'SiteFiles/sliderImage2.png' ,
+        ],
+    ] ,
+    'image_slider9'=> [
+        'super_key' => 'slider2' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage2.png' ,
+            'ar' => 'SiteFiles/sliderImage2.png' ,
+        ],
+    ] ,
+    'image_slider10'=> [
+        'super_key' => 'slider2' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage3.png' ,
+            'ar' => 'SiteFiles/sliderImage3.png' ,
+        ],
+    ] ,
+    'image_slider11'=> [
+        'super_key' => 'slider2' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage3.png' ,
+            'ar' => 'SiteFiles/sliderImage3.png' ,
+        ],
+    ] ,
+    'image_slider12'=> [
+        'super_key' => 'slider2' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage3.png' ,
+            'ar' => 'SiteFiles/sliderImage3.png' ,
+        ],
+    ] ,
+    'image_slider13'=> [
+        'super_key' => 'slider2' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage3.png' ,
+            'ar' => 'SiteFiles/sliderImage3.png' ,
+        ],
+    ] ,
+    'image_slider14'=> [
+        'super_key' => 'slider2' ,
+        'value' => [
+            'en' => 'SiteFiles/sliderImage3.png' ,
+            'ar' => 'SiteFiles/sliderImage3.png' ,
+        ],
+    ] ,
 
-            'description' => 'اكشتف الطرائق الجديدة للتعليم' ,
+
+    'email' => [
+        'super_key' => 'header' ,
+        'value' => [
+            'en' => 'IdeaCodeReality.ICR@gmail.com' ,
+            'ar' => 'IdeaCodeReality.ICR@gmail.com' ,
+        ],
+    ] ,
+    'phone1' => [
+        'super_key' => 'header' ,
+        'value' => [
+            'en' => '+963 963 155 238' ,
+            'ar' => '+963 963 155 238' ,
+        ],
+    ] ,
+    'phone2' => [
+        'super_key' => 'header' ,
+        'value' => [
+            'en' => '+963 963 155 238' ,
+            'ar' => '+963 963 155 238' ,
+        ],
+    ] ,
+    'instagram' => [
+        'super_key' => 'header' ,
+        'value' => [
+            'ar' => 'instagram.insta',
+            'en' => 'instagram.insta'
         ]
-    ],
-],
-
-'courses_header' => [
-    'super_key' => 'courses' ,
-    'value' => [
-        'en' => [
-
-            'description' => 'Experience a new way of learning through our library of world-class university courses' ,
-        ] ,
-        'ar' =>[
- 
-            'description' => 'استمتع بتجربة جديدة للتعلم من خلال مكتبتنا التي تضم دورات عالية المستوى' ,
-        ] ,
-    ]
-] ,
-
-'overview_header' => [
-    'super_key' => 'overview' ,
-    'value' => [
-        'en' => [
-            'title' => 'Overview' ,
-            'description' => 'It\'s time to be superior. The course includes all the important information that will make you superior' ,
-        ] ,
-        'ar' =>[
-            'title' => 'لمحة عامة' ,
-            'description' => 'It\'s time to be superior. The course includes all the important information that will make you superior بالعربي' ,
-        ] ,
-    ]
-] ,
-
-'teacher_header' => [
-    'super_key' => 'teachers' ,
-    'value' => [
-        'en' => [
-
-            'description' => 'Baccalaureate course trainees are students preparing to pass the baccalaureate examinations, an important educational stage that marks the end of secondary education and opens the door to higher education. Baccalaureate courses aim to provide students with the knowledge and skills necessary to achieve success in these examinations. Baccalaureate course trainees are students who prepare to pass the baccalaureate examinations, an important educational stage that marks the end of secondary education and opens the door to higher education. Baccalaureate courses aim to provide students with the knowledge and skills' ,
-        ] ,
-        'ar' =>[
-   
-            'description' => 'المتدربون في دورات البكالوريا هم الطلاب الذين يستعدون لاجتياز امتحانات شهادة البكالوريا، وهي مرحلة تعليمية مهمة تشكل نهاية التعليم الثانوي وتفتح الباب أمام التعليم العالي. تهدف دورات البكالوريا إلى تزويد الطلاب بالمعرفة والمهارات اللازمة لتحقيق النجاح في هذه الامتحانات.المتدربون في دورات البكالوريا هم الطلاب الذين يستعدون لاجتياز امتحانات شهادة البكالوريا، وهي مرحلة تعليمية مهمة تشكل نهاية التعليم الثانوي وتفتح الباب أمام التعليم العالي. تهدف دورات البكالوريا إلى تزويد الطلاب بالمعرفة والمهارات اللازمة لتحقيق النجاح في هذه الامتحانات.' ,
-        ] ,
-    ]
-] ,
-
-
-/**@Images */
-
-'image_overview'=> [
-    'super_key' => 'overview' ,
-    'value' => [
-        'en' => 'SiteFiles/overview.png' ,
-        'ar' => 'SiteFiles/overview.png' ,
-    ],
-] ,
-
-'footer_email' => [
-    'super_key' => 'footer' ,
-    'value' => [
-        'en' => 'IdeaCodeReality.ICR@gmail.com' ,
-        'ar' => 'IdeaCodeReality.ICR@gmail.com' ,
-    ],
-] ,
-'footer_phone' => [
-    'super_key' => 'footer' ,
-    'value' => [
-        'en' => '+963 963 155 238' ,
-        'ar' => '+963 963 155 238' ,
-    ],
-] ,
+    ] ,
+    'facebook' => [
+        'super_key' => 'header' ,
+        'value' => [
+            'ar' => 'facebook.face',
+            'en' => 'facebook.face'
+        ]
+    ] ,
+    'twitter' => [
+        'super_key' => 'header' ,
+        'value' => [
+            'ar' => 'twitter.twit',
+            'en' => 'twitter.twit'
+        ]
+    ] ,
+    'pinterest' => [
+        'super_key' => 'header' ,
+        'value' => [
+            'ar' => 'pinterest.pin',
+            'en' => 'pinterest.pin'
+        ]
+    ] ,
+    'whatsapp' => [
+        'super_key' => 'header' ,
+        'value' => [
+            'ar' => 'whatsapp.whats',
+            'en' => 'whatsapp.whats'
+        ]
+    ] ,
+    'about' => [
+        'super_key' => 'footer' ,
+        'value' => [
+            'ar' => 'هم روّاد المواقع الإلكترونية المتخصصة في مجال الإعلانات المبوبة والتي تمكّن المستخدمين سواء كانوا بائعين أم مشترين من بيع وشراء مختلف السلع والمنتجات',
+            'en' => 'They are the pioneers of websites specialized in the field of classified ads, which enable users, whether sellers or buyers, to buy and sell various goods and products.'
+        ]
+    ] ,
+    'hero_description' => [
+        'super_key' => 'about' ,
+        'value' => [
+            'ar' => 'في بعض الأحيان ، يكون من الصعب معرفة ما إذا كُنتَ تحصل بالفعل على صفقة جيدة لشيء ما. هناك عدد كبير جدًا من مواقع الويب للتحقق منها ؛ لن تعرف أبدًا إذا كُنت قد فوت سعرًا أقل. إذا كنت تبحث عن أفضل الصفقات على الإلكترونيات ، فإن TechBargains هو الجواب. حيث ينتقل من خلال مئات المتاجر الإلكترونية ، ومواقع الخصومات ، وتجار التجزئة من الأطراف الثالثة ليقدم لك بعضًا من أرخص الصفقات التي ستجدها. قسم الحوسبة شامل. يُقدم موقع الويب أجهزة الكمبيوتر المحمولة والمكتبية والطابعات وأجهزة التوجيه والمزيد. ستجد أيضًا الأجهزة القابلة للارتداء وأجهزة المنزل الذكي وأجهزة الألعاب وأجهزة الصوت. بعيدًا عن التكنولوجيا ، يُقدم موقع الويب بعض الفئات الأصغر الأخرى مثل المنزل والحديقة ، لكن الصفقات ليست ملفتة للنظر. للحصول على صفقات أفضل ، اشترك في النشرة الإخبارية لـ TechBargains.الإلكترونية ، ومواقع الخصومات ، وتجار التجزئة من الأطراف الثالثة ليقدم لك بعضًا من أرخص الصفقات التي ستجدها. قسم الحوسبة شامل. يُقدم موقع الويب أجهزة الكمبيوتر المحمولة والمكتبية والطابعات وأجهزة التوجيه والمزيد. ستجد أيضًا بعيدًا عن التكنولوجيا ، يُقدم موقع الويب بعض الفئات الأصغر الأخرى مثل المنزل والحديقة ، لكن الصفقات ليست ملفتة للنظر. للحصول على صفقات أفضل ، اشترك في النشرة الإخبارية لـ TechBargains',
+            'en' => 'Sometimes, it is hard to know if you are actually getting a good deal on something. There are too many websites to check out; You will never know if you have missed out on a lower price. If you are looking for the best deals on electronics, TechBargains is the answer. It combs through hundreds of online stores, discount sites, and third-party retailers to bring you some of the cheapest deals you will find. Comprehensive computing department. The website offers laptops, desktops, printers, routers, and more. You will also find wearables, smart home devices, gaming consoles, and audio devices. Beyond technology, the website does offer some other smaller categories like home and garden, but the deals are not as eye-catching. For even better deals, sign up for TechBargains newsletter, discount sites, and third-party retailers to offer you some of the cheapest deals you will find. Comprehensive computing department. The website offers laptops, desktops, printers, routers, and more. You will also find beyond technology, the website offers some other smaller categories like home and garden, but the deals are not as eye-catching. For even better deals, sign up for the TechBargains newsletter'
+        ]
+    ] ,
+    'search' => [
+        'super_key' => 'header' ,
+        'value' => [
+            'ar' => 'مهما كان نوع بحثك أو عرضك أو طلبك فيما يخص نطاق الأجهزة والإلكترونيات اللازمة للمنزل والمكتب؛ هُنا ستجد الفرصة الأمثل للقيام بالتسويق الإلكتروني',
+            'en' => 'Whatever your search, offer or request regarding the range of appliances and electronics needed for home and office; Here you will find the best opportunity to do electronic marketing'
+        ]
+    ] ,
+    'contact-us' => [
+        'super_key' => 'header' ,
+        'value' => [
+            'ar' => 'لا تتردد في التواصل معنا و الاستفسار عن ما تريد نحن هنا لخدمتك',
+            'en' => 'Do not hesitate to contact us and inquire about what you want. We are here to serve you'
+        ]
+    ] ,
+    'rights' => [
+        'super_key' => 'footer' ,
+        'value' => [
+            'ar' => 'icr جميع الحقوق محفوظة لموقع بهج الضياء ©2023 تم التطوير بواسطة فريق ',
+            'en' => 'All rights reserved to Bahj Al-Diaa website ©2023 Developed by icr team'
+        ]
+    ] ,
 ];

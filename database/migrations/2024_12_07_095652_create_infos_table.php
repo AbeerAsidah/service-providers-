@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('infos', function (Blueprint $table) {
             $table->id();
             $table->string('super_key')->nullable();
-            $table->string('key')->unique();
+            $table->string('key');
             $table->text('value');
             $table->timestamps();
         });

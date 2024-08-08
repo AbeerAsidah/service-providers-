@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckAbilities;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Middleware\SetLocale;
@@ -30,7 +31,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append(SetLocale::class);
         $middleware->alias([
-            'last.active' => TrackLastActiveUser::class
+            'last.active' => TrackLastActiveUser::class,
+            'ability' => CheckAbilities::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
