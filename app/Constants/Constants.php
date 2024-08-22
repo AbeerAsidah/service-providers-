@@ -11,6 +11,7 @@ class Constants
     const FEMALE_GENDER = 'FEMALE';
 
     const SECTIONS_TYPES = [
+        //todo add your info in the same way
         'sections' => [
             'attributes' => [
                 'name',
