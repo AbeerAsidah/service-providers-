@@ -60,9 +60,6 @@ class Section extends Model
     {
         return $this->hasMany(Section::class, 'parent_id');
     }
-    public function products()
-    {
-        return $this->hasMany(Product::class, 'parent_id');
-    }
+
 
 }

@@ -20,12 +20,12 @@ class Info extends Model
     ];
 
     public $translatable = ['value'];
-    public static $imageKeys = [
+    public static array $imageKeys = [
         'overview-image',
     ];
-    public static $commaSepratedKeys = [
+    public static array $commaSeparatedKeys = [
     ];
-    public static $translatableKeys = [
+    public static array $translatableKeys = [
         'hero-description',
         'sections-header',
         'sections-certificates',
@@ -38,7 +38,7 @@ class Info extends Model
         'overview-professional_instructors',
         'instructors-header',
         'application-description' ,
-        
+
     ];
 
     public function value(): Attribute
@@ -47,7 +47,7 @@ class Info extends Model
 
             get: function (mixed $value, array $attributes) {
 
-                if (in_array($attributes['key'], static::$commaSepratedKeys)) {
+                if (in_array($attributes['key'], static::$commaSeparatedKeys)) {
                     return explode(',', $value);
                 }
                 if (in_array($attributes['super_key'] . '-' . $attributes['key'], static::$translatableKeys)) {

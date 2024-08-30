@@ -73,10 +73,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class);
     }
-    public function orders(){
-        return $this->hasMany(UserOrder::class, 'user_id');
-    }
-    public function cart_products(){
-        return $this->belongsToMany(Product::class, 'cart_items', 'user_id', 'product_id');
-    }
+
 }
