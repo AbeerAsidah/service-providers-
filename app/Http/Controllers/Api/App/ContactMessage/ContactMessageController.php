@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Api\App\ContactMessage;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ContactMessageResource;
-use App\Http\Requests\Api\Admin\ContactMessage\StoreContactMessageRequest;
+use App\Http\Requests\Api\App\ContactMessage\StoreContactMessageRequest;
 use App\Services\App\ContactMessage\ContactMessageService as AppContactMessageService;
 
 class ContactMessageController extends Controller
@@ -74,7 +74,7 @@ class ContactMessageController extends Controller
 
     public function store(StoreContactMessageRequest $request)
     {
-        $message = $this->contactMessagesService->store($request->validated());
+        $message = $this->contactMessagesService->store($request);
 
         return success(ContactMessageResource::make($message));
     }

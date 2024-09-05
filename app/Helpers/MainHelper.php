@@ -1,9 +1,86 @@
 <?php
 
 use Carbon\Carbon;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Constants\Constants;
 use Illuminate\Http\Response;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
+
+if (!function_exists('languageResponse')) {
+    /**
+     * Transform validated data into a JSON structure for translations.
+     *
+     * @param array $data The validated data array.
+     * @param array $translated_suffix The translated attributes (e.g., 'name', 'text').
+     * @param array $languages The array of language prefixes (e.g., ['en', 'ar', 'fr']).
+     * @param \Illuminate\Http\Resources\Json\JsonResource $resource Optional. The resource to use for fetching existing translations 
+     * @return array The transformed JSON structure.
+     * @throws \Exception if a translation is missing and cannot be found in the data or the model.
+     */
+    function languageResponse(array $data, array $translated_suffix, JsonResource $resource, array $languages = ['ar' , 'en' , 'fr']): array
+    {
+        if(!auth('sanctum')->user()?->hasRole(Constants::ADMIN_ROLE))
+            return $data ;
+
+        $response = [] ;
+        
+        foreach($data as $key=>$value)
+        {
+            if(!!!in_array($key , $translated_suffix))
+            {
+                $response[$key] = $value ;
+                continue ;
+            }
+            
+            foreach($languages as $lang)
+            {
+                // @phpstan-ignore-next-line
+                $response[$lang.'_'.$key] = $resource->getTranslation($key, $lang);
+            }
+            
+        }
+        return $response ;
+    }
+}
+
+if (!function_exists('languageJson')) {
+    /**
+     * Transform validated data into a JSON structure for translations.
+     *
+     * @param array $data The validated data array.
+     * @param string $suffix The suffix to use (e.g., 'name', 'text').
+     * @param array $languages The array of language prefixes (e.g., ['en', 'ar', 'fr']).
+     * @param \Illuminate\Database\Eloquent\Model|null $model Optional. The model to use for fetching existing translations during update
+     * @return array The transformed JSON structure.
+     * @throws \Exception if a translation is missing and cannot be found in the data or the model.
+     */
+    function languageJson(array $data, string $suffix, Model $model = null, array $languages = ['ar' , 'en' , 'fr']): array
+    {
+        $result = [];
+        
+        foreach ($languages as $lang) {
+            $key = $lang . '_' . $suffix;
+            if (isset($data[$key])) {
+                $result[$lang] = $data[$key];
+            } elseif ($model) {
+                try {
+                    // @phpstan-ignore-next-line
+                    $result[$lang] = $model->getTranslation($suffix, $lang);
+                } catch (\Exception $e) {
+                    throw new \Exception("Translation missing for language '$lang' and suffix '$suffix'.");
+                }
+            } else {
+                throw new \Exception("Translation missing for language '$lang' and suffix '$suffix'.");
+            }
+        }
+        
+        return $result;
+    }
+}
+
 
 if (!function_exists('error')) {
     function error(string $message = null, $errors = null,  $code = 401)
@@ -11,8 +88,8 @@ if (!function_exists('error')) {
         return response()->json([
             'message' => $message,
             'errors' => $errors ?? [$message],
-            'code' => $code,
-        ], $code);
+            'code' => (($code<400 or $code>503)?500:$code),
+        ], (($code<400 or $code>503)?500:$code));
     }
 }
 if (!function_exists('success')) {

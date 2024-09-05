@@ -1,0 +1,39 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class {{ class }} extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return parent::toArray($request);
+    }
+
+    /**
+     * Transform the resource collection into an array.
+     *
+     * @param mixed \$data
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Pagination\AbstractPaginator
+     */
+    public static function collection(\$data)
+    {
+        if (is_a(\$data, \Illuminate\Pagination\AbstractPaginator::class)) {
+            \$data->setCollection(
+                \$data->getCollection()->map(function (\$listing) {
+                    return new static(\$listing);
+                })
+            );
+            return \$data;
+        }
+
+        return parent::collection(\$data);
+    }
+}

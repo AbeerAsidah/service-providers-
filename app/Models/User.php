@@ -59,12 +59,12 @@ class User extends Authenticatable
     }
 
 
-    public function images()
+    public function images():HasMany
     {
         return $this->hasMany(UserImage::class);
     }
 
-    public function fcmTokens()
+    public function fcmTokens():HasMany
     {
         return $this->hasMany(UserFcmToken::class);
     }
@@ -73,5 +73,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class);
     }
-
 }

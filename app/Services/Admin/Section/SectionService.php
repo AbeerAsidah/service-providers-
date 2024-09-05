@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Services\Admin\Section;
+use App\Models\Section;
+use App\Http\Resources\SectionResource;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Api\Admin\Section\StoreSectionRequest;
 use App\Http\Requests\Api\Admin\Section\UpdateSectionRequest;
-use App\Http\Resources\SectionResource;
-use App\Models\Section;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SectionService
 {
@@ -16,7 +17,7 @@ class SectionService
     {
         //
     }
-    public function getAll($trashOnly, Section $parentSection = null)
+    public function getAll($trashOnly, Section $parentSection = null):SectionResource|AnonymousResourceCollection
     {
         if($parentSection){
             $sections = Section::where('parent_id', $parentSection->id);
@@ -30,7 +31,7 @@ class SectionService
         $sections = $sections->paginate(config('app.pagination_limit'));
         return SectionResource::collection($sections);
     }
-    public function store(StoreSectionRequest $request, Section $parentSection = null, $type = null)
+    public function store(StoreSectionRequest $request, Section $parentSection = null, $type = null):SectionResource
     {
         $data = $request->validated();
         if ($request->hasFile('image')) {
@@ -43,7 +44,7 @@ class SectionService
         $section = Section::create($data);
         return SectionResource::make($section);
     }
-    public function update(UpdateSectionRequest $request, Section $section)
+    public function update(UpdateSectionRequest $request, Section $section):SectionResource
     {
         $data = $request->validated();
         if ($request->hasFile('image')) {
@@ -61,7 +62,7 @@ class SectionService
         $section->update($data);
         return SectionResource::make($section);
     }
-    public function delete($id, $force = null)
+    public function delete($id, $force = null):bool
     {
         if ($force) {
             $section = Section::onlyTrashed()->findOrFail($id);
@@ -69,11 +70,11 @@ class SectionService
                     Storage::delete("public/$section->image");
             $section->forceDelete();
         } else {
-            $offer = Section::where('id', $id)->delete();
+                Section::where('id', $id)->delete();
         }
         return true;
     }
-    public function restore($id)
+    public function restore(string|int $id):bool
     {
         $section = Section::withTrashed()->find($id);
 

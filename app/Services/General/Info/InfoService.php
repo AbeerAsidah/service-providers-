@@ -16,7 +16,7 @@ use App\Http\Requests\UpdateInfoRequest;
 
 class InfoService
 {
-    public function getAll()
+    public function getAll():mixed
     {
         $local = App::getLocale();
         $isAdmin = Auth::user()?->hasRole(Constants::ADMIN_ROLE);
