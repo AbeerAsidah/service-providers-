@@ -15,6 +15,8 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -55,12 +57,25 @@ return Application::configure(basePath: dirname(__DIR__))
                 return error('Forbidden', [$e->getMessage()], 403);
             }
 
+            
+            if ($e instanceof AccessDeniedHttpException) {
+                return error('Forbidden: Insufficient Permissions', [$e->getMessage()], 403);
+            }
+
             if ($e instanceof ModelNotFoundException) {
                 return error('Resource not found', [$e->getMessage()], 404);
             }
 
-            if (($e instanceof ValidationException) or ($e instanceof HttpResponseException)) {
-                return error('Validation error', [$e->getMessage()], 422);
+            if ($e instanceof Illuminate\Validation\ValidationException) {
+                return error($e->getMessage(), $e->validator->errors()->toArray(), 422);
+            }
+            
+            if($e instanceof Symfony\Component\HttpKernel\Exception\HttpException){
+                return error($e->getMessage(), [$e->getMessage()], 404);
+            }
+
+            if ($e instanceof Illuminate\Validation\ValidationException) {
+                return error($e->getMessage(), $e->validator->errors()->toArray(), 422);
             }
 
 
