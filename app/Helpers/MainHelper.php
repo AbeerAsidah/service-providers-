@@ -1,13 +1,66 @@
 <?php
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Constants\Constants;
 use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\Model;
+use App\Jobs\SendFirebaseNotificationJob;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+if (!function_exists('pushFirebaseNotification')) {
+    function pushFirebaseNotification(string|array $tokens, string $title, array $body, string $queue = 'default' , $connection = null)
+    {
+        \Log::warning('push helper') ;
+        
+        if(is_string($tokens)) $tokens = [$tokens] ;
+
+        foreach($tokens as $token)
+        {
+            dispatch(new SendFirebaseNotificationJob($token, $title, $body))
+                ->onConnection($connection ?? config('queue.default') ?? 'database')
+                ->onQueue($queue);
+        }
+    }
+}
+
+
+if (!function_exists('authorize')) {
+    function authorize(string|array $permission, $allowGuestForNonAdminRoute = false)
+    {
+        if ($allowGuestForNonAdminRoute and !request()->is('*admin*'))
+            return;
+
+        if (!auth('sanctum')->check()) {
+            throw new AuthenticationException();
+        }
+
+        $user = User::with(['roles', 'permissions'])->find(auth('sanctum')->id());
+
+        if (!$user) {
+            throw new AuthenticationException();
+        }
+
+        // Check if user has the admin role manually
+        // if ($user->roles->contains('name', Constants::ADMIN_ROLE))
+        //     return;
+
+        if (is_string($permission) and !$user->permissions->contains('name', $permission)) {
+            throw new AuthorizationException();
+        }
+
+        $hasAnyPermission = $user->permissions->pluck('name')->intersect($permission)->isNotEmpty();
+
+        if (!$hasAnyPermission) {
+            throw new AuthorizationException();
+        }
+
+    }
+}
 
 if (!function_exists('languageResponse')) {
     /**
@@ -20,29 +73,26 @@ if (!function_exists('languageResponse')) {
      * @return array The transformed JSON structure.
      * @throws \Exception if a translation is missing and cannot be found in the data or the model.
      */
-    function languageResponse(array $data, array $translated_suffix, JsonResource $resource, array $languages = ['ar' , 'en' , 'fr']): array
+    function languageResponse(array $data, array $translated_suffix, JsonResource $resource, array $languages = ['ar', 'en', 'fr']): array
     {
-        if(!auth('sanctum')->user()?->hasRole(Constants::ADMIN_ROLE))
-            return $data ;
+        if (!auth('sanctum')->user()?->hasRole(Constants::ADMIN_ROLE))
+            return $data;
 
-        $response = [] ;
-        
-        foreach($data as $key=>$value)
-        {
-            if(!!!in_array($key , $translated_suffix))
-            {
-                $response[$key] = $value ;
-                continue ;
+        $response = [];
+
+        foreach ($data as $key => $value) {
+            if (!!!in_array($key, $translated_suffix)) {
+                $response[$key] = $value;
+                continue;
             }
-            
-            foreach($languages as $lang)
-            {
+
+            foreach ($languages as $lang) {
                 // @phpstan-ignore-next-line
-                $response[$lang.'_'.$key] = $resource->getTranslation($key, $lang);
+                $response[$lang . '_' . $key] = $resource->getTranslation($key, $lang);
             }
-            
+
         }
-        return $response ;
+        return $response;
     }
 }
 
@@ -57,10 +107,10 @@ if (!function_exists('languageJson')) {
      * @return array The transformed JSON structure.
      * @throws \Exception if a translation is missing and cannot be found in the data or the model.
      */
-    function languageJson(array $data, string $suffix, Model $model = null, array $languages = ['ar' , 'en' , 'fr']): array
+    function languageJson(array $data, string $suffix, Model $model = null, array $languages = ['ar', 'en', 'fr']): array
     {
         $result = [];
-        
+
         foreach ($languages as $lang) {
             $key = $lang . '_' . $suffix;
             if (isset($data[$key])) {
@@ -76,20 +126,20 @@ if (!function_exists('languageJson')) {
                 throw new \Exception("Translation missing for language '$lang' and suffix '$suffix'.");
             }
         }
-        
+
         return $result;
     }
 }
 
 
 if (!function_exists('error')) {
-    function error(string $message = null, $errors = null,  $code = 401)
+    function error(string $message = null, $errors = null, $code = 401)
     {
         return response()->json([
             'message' => $message,
             'errors' => $errors ?? [$message],
-            'code' => (($code<400 or $code>503)?500:$code),
-        ], (($code<400 or $code>503)?500:$code));
+            'code' => (($code < 400 or $code > 503) ? 500 : $code),
+        ], (($code < 400 or $code > 503) ? 500 : $code));
     }
 }
 if (!function_exists('success')) {
