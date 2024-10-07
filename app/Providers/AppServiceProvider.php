@@ -29,15 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //todo make general route binding for soft deleted model
-        //todo move logic to route service provider
-        Route::bind('contactMessage', function ($id) {
-            return ContactMessage::withTrashed()->findOrFail($id);
-        });
-        Route::bind('trashed_offer', function ($id) {
-            return Offer::onlyTrashed()->findOrFail($id);
-        });
-
         //just for testing 
         \DB::listen(function ($query) {
             \Log::info($query->sql, $query->bindings);

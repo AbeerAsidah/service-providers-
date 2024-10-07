@@ -28,7 +28,7 @@ class InfoResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Pagination\AbstractPaginator
      */
     public static function collection($data)
     {

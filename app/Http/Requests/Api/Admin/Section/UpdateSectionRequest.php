@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSectionRequest extends FormRequest
 {
-    use HandlesValidationErrorsTrait;
+    //use HandlesValidationErrorsTrait;
 
     /**
      * Determine if the user is authorized to make this request.

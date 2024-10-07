@@ -54,7 +54,9 @@ class ContactMessageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'type' => $this->type ,
             'email' => $this->email,
             'message' => $this->message,
             'deleted_at' => $this->deleted_at,

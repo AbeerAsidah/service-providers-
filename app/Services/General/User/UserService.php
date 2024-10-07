@@ -2,12 +2,12 @@
 
 namespace App\Services\General\User;
 
-use App\Constants\Constants;
 use App\Models\User;
+use App\Constants\Constants;
 use App\Models\UserFcmToken;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UserService
 {
@@ -21,7 +21,7 @@ class UserService
         $this->handleUserImage($user, $request);
         $user['token'] = $this->generateUserToken($user);
         if ($request->fcm_token) {
-            $this->handelFcmToken($user, $request->fcm_token);
+            $this->handleFcmToken($user, $request->fcm_token);
         }
         return $user;
     }
@@ -46,7 +46,7 @@ class UserService
         return $user->createToken('auth')->plainTextToken;
     }
 
-    public function handelFcmToken($user, $fcmToken)
+    public function handleFcmToken($user, $fcmToken)
     {
         //check if the fcm token stored in guest mode to link it with the user .
         $existingFcmToken = UserFcmToken::where('fcm_token', $fcmToken)->first();

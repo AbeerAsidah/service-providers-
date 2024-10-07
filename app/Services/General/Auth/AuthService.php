@@ -32,6 +32,7 @@ class AuthService
     {
         $this->notificationService = $notificationService;
         $this->userService = $userService;
+        // @phpstan-ignore-next-line
         $this->user = auth('sanctum')->user();
     }
 
@@ -43,7 +44,7 @@ class AuthService
         if ($request->read)
             $this->notificationService->readAllNotifications();
         return success(
-            UserRecourse::make($this->user->load('images')),
+            UserRecourse::make($this->user?->load('images')),
             200,
             [
                 'notifications' => $notifications,
@@ -57,7 +58,7 @@ class AuthService
     /**
      * @throws Exception
      */
-    public function login(LoginRequest $request, $isAdmin = false): array
+    public function login(LoginRequest $request, ?bool $isAdmin = false): array
     {
         $fun = $isAdmin ? 'whereHas' : 'whereDoesntHave';
         $user = User::where('username', $request->username)
@@ -72,7 +73,7 @@ class AuthService
 
         $token = $user->createToken('auth')->plainTextToken;
         if ($request->fcm_token) {
-            $this->userService->handelFcmToken($user, $request->fcm_token);
+            $this->userService->handleFcmToken($user, $request->fcm_token);
         }
         $user['token'] = $token;
         return ['user' => new UserRecourse($user)];
@@ -80,6 +81,7 @@ class AuthService
 
     function logout(): true
     {
+        // @phpstan-ignore-next-line
         $this->user->tokens()->where('id', $this->user->currentAccessToken()->id)->delete();
         return true;
     }
@@ -146,21 +148,22 @@ class AuthService
 
     /**
      * @throws Exception
+     * @return true
      */
     public function sendVerificationCode(SendVerificationCodeRequest $request): true
     {
         return DB::transaction(function () use ($request) {
-            $authToVerfiy = [];
+            $authToVerify = [];
             // this part for activation after signup if needed .
             if ($this->user) {
                 if ($this->user->is_active) {
                     throw new Exception(__('messages.you_have_already_activate_your_account'), 422);
                 }
-                $authToVerfiy['user_id'] = $this->user->id;
+                $authToVerify['user_id'] = $this->user->id;
                 AuthCode::where('user_id', $this->user->id)->delete();
 
             } else {
-                $authToVerfiy['email'] = $request->email;
+                $authToVerify['email'] = $request->email;
                 AuthCode::where('email', $request->email)->delete();
 
             }
@@ -173,10 +176,9 @@ class AuthService
             AuthCode::create(array_merge([
                 'code' => $code,
                 'expired_at' => Carbon::now()->addMinutes(15)->format('Y-m-d H:i:s')
-            ], $authToVerfiy));
+            ], $authToVerify));
             return true;
-
-        });
+        }) === true ;
     }
 
     public function updateProfile(UpdateProfileRequest $request): JsonResponse

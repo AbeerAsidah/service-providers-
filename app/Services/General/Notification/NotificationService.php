@@ -2,11 +2,11 @@
 
 namespace App\Services\General\Notification;
 
+use App\Models\User;
 use App\Constants\Constants;
 use App\Constants\Notifications;
-use App\Http\Resources\NotificationRecourse;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\NotificationRecourse;
 
 class NotificationService
 {
@@ -14,6 +14,7 @@ class NotificationService
 
     public function __construct()
     {
+        // @phpstan-ignore-next-line
         $this->user = auth('sanctum')->user();
     }
 
@@ -67,6 +68,7 @@ class NotificationService
                 return;
         }
         if (!$admins) {
+            // @phpstan-ignore-next-line
             $admins = User::whereHas('role', function ($q) {
                 $q->where('name', Constants::ADMIN_ROLE);
             })->get();

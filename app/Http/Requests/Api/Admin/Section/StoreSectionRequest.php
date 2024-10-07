@@ -8,7 +8,7 @@ use App\Traits\HandlesValidationErrorsTrait;
 
 class StoreSectionRequest extends FormRequest
 {
-    use HandlesValidationErrorsTrait;
+    //use HandlesValidationErrorsTrait;
 
     /**
      * Determine if the user is authorized to make this request.

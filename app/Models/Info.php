@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Info extends Model
 {
-    use HasFactory, HasTranslations;
+    use HasFactory;
 
     protected $fillable = [
         'super_key',
@@ -58,7 +58,7 @@ class Info extends Model
 
             set: function (mixed $value, array $attributes) {
 
-                if (in_array($attributes['key'], static::$commaSepratedKeys)) {
+                if (in_array($attributes['key'], static::$commaSeparatedKeys)) {
                     return implode(',', $value);
                 }
                 if (in_array($attributes['key'], static::$translatableKeys)) {
