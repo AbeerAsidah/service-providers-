@@ -1,1 +1,0 @@
-<h1>{{env('APP_NAME')}} backend v1.0</h1>
