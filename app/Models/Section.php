@@ -2,64 +2,44 @@
 
 namespace App\Models;
 
-use App\Constants\Constants;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
 class Section extends Model
 {
-    use HasFactory, SoftDeletes, HasTranslations;
-
-    protected function asJson($value): bool|string
-    {
-        return json_encode($value, JSON_UNESCAPED_UNICODE);
-    }
+    use HasFactory, HasTranslations;
 
     public $translatable = ['name'];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        'parent_id',
-        'type',
         'name',
         'image',
+        'type',
+        'parent_id',
     ];
-    protected $hidden = [];
 
-    protected static function boot()
+    /**
+     * Get the parent section.
+     */
+    public function parent()
     {
-        parent::boot();
-
-        static::retrieved(function ($model) {
-            $model->hidden = $model->getHiddenAttributes();
-        });
-
-        static::saving(function ($model) {
-            $model->hidden = $model->getHiddenAttributes();
-        });
+        return $this->belongsTo(Section::class, 'parent_id');
     }
 
-
-
-    public function getHiddenAttributes(): array
-    {
-        $sectionAttributes = Constants::SECTIONS_TYPES[$this->type]['attributes'];
-        $sectionAttributes[] = 'id';
-        $sectionAttributes[] = 'type';
-        $allAttributes = Schema::getColumnListing($this->getTable());
-
-        return array_diff($allAttributes, $sectionAttributes);
-    }
-
-
-    public function subSections()
+    /**
+     * Get the child sections.
+     */
+    public function children()
     {
         return $this->hasMany(Section::class, 'parent_id');
     }
 
+   
 
 }

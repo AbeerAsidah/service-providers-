@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\Section;
 
 class SectionObserver
 {

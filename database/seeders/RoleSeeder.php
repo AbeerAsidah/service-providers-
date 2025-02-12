@@ -28,7 +28,7 @@ class RoleSeeder extends Seeder
                 'guard_name' => 'api',
             ],
             [
-                'name' => Constants::TEACHER_ROLE,
+                'name' => Constants::SERVICE_PROVIDER_ROLE,
                 'guard_name' => 'api',
             ]
         ];
@@ -36,10 +36,9 @@ class RoleSeeder extends Seeder
 
         $admin = User::create([
             'username' => 'admin',
-            'email' => 'alihamoud624@gmail.com',
-            'first_name' => 'yosof',
-            'last_name' => 'bayan',
-            'phone_number' => '+963967213544',
+            'email' => 'admin123@gmail.com',
+            'name' => 'admin',
+            'phone_number' => '+999999999',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make('12345678'),
             'is_active' => '1',

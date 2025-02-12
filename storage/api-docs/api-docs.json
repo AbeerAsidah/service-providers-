@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Khrejeen Apis ",
+        "title": "Bahg aldiaa E-commerce Apis ",
         "contact": {
             "name": "Yosof Bayan",
             "url": "https://wa.me/+963967213544",
@@ -15,1235 +15,11 @@
             "description": "local Base URL"
         },
         {
-            "url": "https://khrejeen-back.icrcompany.net/api/v1",
+            "url": "https://bahg-back.icrcompany.net/api/v1",
             "description": "Develop Base URL"
         }
     ],
     "paths": {
-        "/admin/branches": {
-            "get": {
-                "tags": [
-                    "Admin",
-                    "Admin - Branch"
-                ],
-                "summary": "Get all branches data",
-                "operationId": "edbf1c8ae3947818154e22753cd28c1f",
-                "parameters": [
-                    {
-                        "name": "trash",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                0,
-                                1
-                            ],
-                            "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/BranchResource"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    },
-                    "400": {
-                        "description": "Invalid request parameters"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Admin",
-                    "Admin - Branch"
-                ],
-                "summary": "Create branch with set of images",
-                "description": "Create a new branch entry with a set of images upload.",
-                "operationId": "createBranchWithImages",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "properties": {
-                                    "images[]": {
-                                        "description": "Image files to upload",
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string",
-                                            "format": "binary"
-                                        }
-                                    },
-                                    "ar_name": {
-                                        "description": "Arabic name",
-                                        "type": "string",
-                                        "example": "Arabic name"
-                                    },
-                                    "en_name": {
-                                        "description": "English name",
-                                        "type": "string",
-                                        "example": "English name"
-                                    },
-                                    "en_description": {
-                                        "description": "English description",
-                                        "type": "string",
-                                        "example": "English description"
-                                    },
-                                    "ar_description": {
-                                        "description": "Arabic description",
-                                        "type": "string",
-                                        "example": "Arabic description"
-                                    },
-                                    "ar_location": {
-                                        "description": "Arabic location",
-                                        "type": "string",
-                                        "example": "Arabic location"
-                                    },
-                                    "en_location": {
-                                        "description": "English location",
-                                        "type": "string",
-                                        "example": "English location"
-                                    },
-                                    "email": {
-                                        "description": "email",
-                                        "type": "email",
-                                        "example": "email@email.com"
-                                    },
-                                    "phone": {
-                                        "description": "phone number",
-                                        "type": "string",
-                                        "example": "+986343274"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BranchResource"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request"
-                    },
-                    "404": {
-                        "description": "Not found"
-                    }
-                }
-            }
-        },
-        "/admin/branches/{id}": {
-            "get": {
-                "tags": [
-                    "Admin",
-                    "Admin - Branch"
-                ],
-                "summary": "Get current branches data",
-                "operationId": "9663f123fd648f9394880d4a1dda56b3",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the branch to show",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BranchResource"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Admin",
-                    "Admin - Branch"
-                ],
-                "summary": "Update an existing branch",
-                "description": "Update an existing branch entry with a set of images upload (optional).",
-                "operationId": "updateBranchWithImages",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the branch to update",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "_method",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "PUT",
-                            "enum": [
-                                "PUT"
-                            ]
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "properties": {
-                                    "images[]": {
-                                        "description": "Image files to upload",
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string",
-                                            "format": "binary"
-                                        }
-                                    },
-                                    "delete_images[]": {
-                                        "description": "Image IDs to delete",
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
-                                        }
-                                    },
-                                    "ar_location": {
-                                        "description": "Arabic location",
-                                        "type": "string",
-                                        "example": "Arabic location"
-                                    },
-                                    "en_location": {
-                                        "description": "English location",
-                                        "type": "string",
-                                        "example": "English location"
-                                    },
-                                    "email": {
-                                        "description": "email",
-                                        "type": "email",
-                                        "example": "email@email.com"
-                                    },
-                                    "phone": {
-                                        "description": "phone number",
-                                        "type": "string",
-                                        "example": "+986343274"
-                                    },
-                                    "ar_name": {
-                                        "description": "Arabic name",
-                                        "type": "string",
-                                        "example": "Arabic name"
-                                    },
-                                    "en_name": {
-                                        "description": "English name",
-                                        "type": "string",
-                                        "example": "English name"
-                                    },
-                                    "en_description": {
-                                        "description": "English description",
-                                        "type": "string",
-                                        "example": "English description"
-                                    },
-                                    "ar_description": {
-                                        "description": "Arabic description",
-                                        "type": "string",
-                                        "example": "Arabic description"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BranchResource"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request"
-                    },
-                    "404": {
-                        "description": "Not found"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Admin",
-                    "Admin - Branch"
-                ],
-                "summary": "SoftDelete a branch",
-                "operationId": "01e1537e6eecabfd351218fea3b710b5",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the branch to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/branches/{id}/force": {
-            "delete": {
-                "tags": [
-                    "Admin",
-                    "Admin - Branch"
-                ],
-                "summary": "ForceDelete a branch",
-                "operationId": "afe409d948338662520e1232f740eb23",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the Branch to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/branches/{id}/restore": {
-            "get": {
-                "tags": [
-                    "Admin",
-                    "Admin - Branch"
-                ],
-                "summary": "Restore a soft-deleted branch",
-                "operationId": "c320ad51dd0b9f84c8dae2863dd09744",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/contact-messages": {
-            "get": {
-                "tags": [
-                    "Admin",
-                    "Admin - ContactMessage"
-                ],
-                "summary": "Get a list of contact messages",
-                "operationId": "91fd0b0739acc5702289b2d74b7f5d87",
-                "parameters": [
-                    {
-                        "name": "trash",
-                        "in": "query",
-                        "description": "pass is to get the trashed objects ",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "A list of contact messages",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/ContactMessageResource"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/contact-messages/{id}/force": {
-            "delete": {
-                "tags": [
-                    "Admin",
-                    "Admin - ContactMessage"
-                ],
-                "summary": "force delete a contact message",
-                "operationId": "73462d8d2ea7dc29e698d5088b7d7848",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the contact message to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Contact message soft deleted",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "soft deleted"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/contact-messages/{id}": {
-            "delete": {
-                "tags": [
-                    "Admin",
-                    "Admin - ContactMessage"
-                ],
-                "summary": "Soft delete a contact message",
-                "operationId": "d93653d43f9fc3aba4d6b7f69881fc7e",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the contact message to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Contact message soft deleted",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "soft deleted"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/contact-messages/{id}/restore": {
-            "patch": {
-                "tags": [
-                    "Admin",
-                    "Admin - ContactMessage"
-                ],
-                "summary": "Restore a soft-deleted contact message",
-                "operationId": "4e5212cb40e01d181e1c8f20af24da60",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the trashed contact message to restore",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Contact message restored",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ContactMessageResource"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/infos/update": {
-            "post": {
-                "tags": [
-                    "Admin",
-                    "Admin - Info"
-                ],
-                "summary": "Update Site Information",
-                "description": "Update various site information including text fields and file uploads.",
-                "operationId": "post-update-info",
-                "requestBody": {
-                    "description": "Site information data",
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateInfoRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successfully updated site information.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Site information updated successfully."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The given data was invalid."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/offers": {
-            "get": {
-                "tags": [
-                    "Admin",
-                    "Admin - Offer"
-                ],
-                "summary": "Retrieve a list of offers",
-                "operationId": "3d8133a7c61f464206f20ff350e2382f",
-                "parameters": [
-                    {
-                        "name": "trash",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "enum": [
-                                0,
-                                1
-                            ],
-                            "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/OfferResource"
-                                            }
-                                        },
-                                        "links": {
-                                            "type": "object"
-                                        },
-                                        "meta": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request parameters"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Admin",
-                    "Admin - Offer"
-                ],
-                "summary": "Create a new offer",
-                "operationId": "4cccb4a2e0a9f7d6d928af0141ab2053",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/StoreOfferRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/OfferResource"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/offers/{id}": {
-            "post": {
-                "tags": [
-                    "Admin",
-                    "Admin - Offer"
-                ],
-                "summary": "Update an existing offer (simulated PUT request)",
-                "operationId": "96cf2d15e70569543712976cee47b568",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "_method",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "PUT",
-                            "enum": [
-                                "PUT"
-                            ]
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateOfferRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/OfferResource"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Admin",
-                    "Admin - Offer"
-                ],
-                "summary": "ForceDelete an offer",
-                "operationId": "390f4bcd4df6eb5325163e0e3f285b70",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the offer to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/offers/{id}/force": {
-            "delete": {
-                "tags": [
-                    "Admin",
-                    "Admin - Offer"
-                ],
-                "summary": "SoftDelete an offer",
-                "operationId": "f30c8874c3715a67d8188b21a410cc86",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the offer to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/offers/{id}/restore": {
-            "get": {
-                "tags": [
-                    "Admin",
-                    "Admin - Offer"
-                ],
-                "summary": "Restore a soft-deleted offer",
-                "operationId": "663def936c3fa3ebe312cb7ba9f1846c",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/{parentSection}/products": {
-            "post": {
-                "tags": [
-                    "Admin",
-                    "Admin - Products"
-                ],
-                "summary": "Store Products  data",
-                "description": "Store  Product with the provided information",
-                "operationId": "post-product",
-                "parameters": [
-                    {
-                        "name": "parentSection",
-                        "in": "path",
-                        "description": "the product section id ",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Product data",
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "ar_name",
-                                    "en_name",
-                                    "ar_description",
-                                    "en_description",
-                                    "price",
-                                    "image"
-                                ],
-                                "properties": {
-                                    "ar_name": {
-                                        "type": "string",
-                                        "example": "product name "
-                                    },
-                                    "en_name": {
-                                        "type": "string",
-                                        "example": "product name "
-                                    },
-                                    "ar_description": {
-                                        "type": "string",
-                                        "example": "product name "
-                                    },
-                                    "en_description": {
-                                        "type": "string",
-                                        "example": "product name "
-                                    },
-                                    "price": {
-                                        "type": "integer",
-                                        "example": "product description "
-                                    },
-                                    "image": {
-                                        "description": "Image file to upload",
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "product stored successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "product udpated successfully"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The given data was invalid."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/admin/{parentSection}/products/{product_id}": {
-            "post": {
-                "tags": [
-                    "Admin",
-                    "Admin - Products"
-                ],
-                "summary": "update Products  data",
-                "description": "update  Product with the provided information",
-                "operationId": "update-product",
-                "parameters": [
-                    {
-                        "name": "parentSection",
-                        "in": "path",
-                        "description": "the product product id ",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "product_id",
-                        "in": "path",
-                        "description": "pass the product id  ",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Product data",
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "properties": {
-                                    "ar_name": {
-                                        "type": "string",
-                                        "example": "product name "
-                                    },
-                                    "en_name": {
-                                        "type": "string",
-                                        "example": "product name "
-                                    },
-                                    "ar_description": {
-                                        "type": "string",
-                                        "example": "product name "
-                                    },
-                                    "en_description": {
-                                        "type": "string",
-                                        "example": "product name "
-                                    },
-                                    "price": {
-                                        "type": "integer",
-                                        "example": "product description "
-                                    },
-                                    "image": {
-                                        "description": "Image file to upload",
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "product stored successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "product udpated successfully"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The given data was invalid."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Admin",
-                    "Admin - Products"
-                ],
-                "summary": "Delete a Product",
-                "operationId": "8fbe2fe1a46deae9f32283092f1f7c78",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the product to delete",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "product deleted successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "product not found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
         "/admin/sections": {
             "get": {
                 "tags": [
@@ -2951,141 +1727,6 @@
                 ]
             }
         },
-        "/branches": {
-            "get": {
-                "tags": [
-                    "App",
-                    "App - Branch"
-                ],
-                "summary": "Get all branches data",
-                "operationId": "1629532b9e1f3db95b006da3f272d21f",
-                "parameters": [
-                    {
-                        "name": "locale",
-                        "in": "header",
-                        "description": "Locale of the branch data (optional)",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "none",
-                                "ar",
-                                "en"
-                            ]
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/BranchResource"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                }
-            }
-        },
-        "/branches/{id}": {
-            "get": {
-                "tags": [
-                    "App",
-                    "App - Branch"
-                ],
-                "summary": "Get current branch data",
-                "operationId": "cd49ccf479e1a6b958a021a6ed750905",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the branch to show",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "locale",
-                        "in": "header",
-                        "description": "Locale of the branch data (optional)",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "none",
-                                "ar",
-                                "en"
-                            ]
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BranchResource"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                }
-            }
-        },
-        "/home": {
-            "get": {
-                "tags": [
-                    "App",
-                    "App - Info"
-                ],
-                "summary": "Get all info",
-                "operationId": "6d60b002bbcf24e1885542160e615a9a",
-                "parameters": [
-                    {
-                        "name": "locale",
-                        "in": "header",
-                        "description": "The locale of the response",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "en",
-                                "ar"
-                            ]
-                        }
-                    }
-                ],
-                "responses": {
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
         "/infos": {
             "get": {
                 "tags": [
@@ -3153,203 +1794,144 @@
                 ]
             }
         },
-        "/offers": {
+        "/notifications": {
             "get": {
                 "tags": [
-                    "General",
-                    "General - Offer"
+                    "App",
+                    "App - Notifications",
+                    "App - Auth"
                 ],
-                "summary": "Retrieve a list of offers",
-                "operationId": "87c3a5ec8508750f38831e42cda2e8bc",
+                "summary": "Get all notifications",
+                "operationId": "17d59a96618168da2927cdb7fbc2468a",
                 "parameters": [
                     {
-                        "name": "locale",
-                        "in": "header",
-                        "description": "Locale of the branch data (optional)",
+                        "name": "is_read",
+                        "in": "query",
                         "required": false,
                         "schema": {
+                            "description": "Filter notifications by read status (0: unread, 1: read)",
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
+                        "name": "is_broadcast",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "description": "Filter notifications by broadcast status (0: not broadcasted, 1: broadcasted)",
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "description": "The type of notification",
                             "type": "string",
                             "enum": [
-                                "none",
-                                "ar",
-                                "en"
+                                "NEW_REGISTRATION",
+                                "NEW_STUDENT_EXAM",
+                                "NEW_HOMEWOTK_STUDENT",
+                                "UPDATE_HOMEWOTK_STUDENT",
+                                "NEW_ATTENDANCE"
                             ]
                         }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/OfferResource"
-                                            }
-                                        },
-                                        "links": {
-                                            "type": "object"
-                                        },
-                                        "meta": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                    "401": {
+                        "description": "Unauthorized"
                     },
-                    "400": {
-                        "description": "Invalid request parameters"
-                    }
-                }
-            }
-        },
-        "/sections/{parentSection}/products": {
-            "get": {
-                "tags": [
-                    "App",
-                    "App - Products"
-                ],
-                "summary": "get  products data",
-                "operationId": "app/products",
-                "parameters": [
-                    {
-                        "name": "parentSection",
-                        "in": "path",
-                        "description": "pass the  section id ",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": [],
-                        "Accept": "json/application"
+                        "bearerAuth": []
                     }
                 ]
             }
         },
-        "/admin/sections/{parentSection}/products": {
+        "/admin/notifications": {
             "get": {
                 "tags": [
                     "Admin",
-                    "Admin - Products"
+                    "Admin - Notifications",
+                    "Admin - Auth"
                 ],
-                "summary": "get  products data",
-                "operationId": "admin/products",
+                "summary": "Get all notifications",
+                "operationId": "1df35c99893610013a4660ca03b5519e",
                 "parameters": [
                     {
-                        "name": "parentSection",
-                        "in": "path",
-                        "description": "pass the  section id ",
-                        "required": true,
+                        "name": "is_read",
+                        "in": "query",
+                        "required": false,
                         "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": [],
-                        "Accept": "json/application"
-                    }
-                ]
-            }
-        },
-        "/sections/{parentSection}/products/{productId}": {
-            "get": {
-                "tags": [
-                    "App",
-                    "App - Products"
-                ],
-                "summary": "get product data ",
-                "operationId": "app/product",
-                "parameters": [
-                    {
-                        "name": "section_id",
-                        "in": "path",
-                        "description": "pass the section id ",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
+                            "description": "Filter notifications by read status (0: unread, 1: read)",
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
-                        "name": "product_id",
-                        "in": "path",
-                        "description": "pass the product id  ",
-                        "required": true,
+                        "name": "is_broadcast",
+                        "in": "query",
+                        "required": false,
                         "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": [],
-                        "Accept": "json/application"
-                    }
-                ]
-            }
-        },
-        "/admin/sections/{parentSection}/products/{productId}": {
-            "get": {
-                "tags": [
-                    "Admin",
-                    "Admin - Products"
-                ],
-                "summary": "get product data ",
-                "operationId": "admin/product",
-                "parameters": [
-                    {
-                        "name": "section_id",
-                        "in": "path",
-                        "description": "pass the section id ",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
+                            "description": "Filter notifications by broadcast status (0: not broadcasted, 1: broadcasted)",
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
-                        "name": "product_id",
-                        "in": "path",
-                        "description": "pass the product id  ",
-                        "required": true,
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
                         "schema": {
-                            "type": "integer"
+                            "description": "The type of notification",
+                            "type": "string",
+                            "enum": [
+                                "NEW_REGISTRATION",
+                                "NEW_STUDENT_EXAM",
+                                "NEW_HOMEWOTK_STUDENT",
+                                "UPDATE_HOMEWOTK_STUDENT",
+                                "NEW_ATTENDANCE"
+                            ]
                         }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Successful operation"
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": [],
-                        "Accept": "json/application"
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -3532,80 +2114,50 @@
     },
     "components": {
         "schemas": {
-            "StoreOfferRequest": {
+            "StoreContactMessageRequest": {
+                "title": "Store Contact Message Request",
+                "description": "Request body for storing a contact message",
                 "required": [
-                    "ar_name",
-                    "en_name",
-                    "ar_description",
-                    "en_description",
-                    "image",
-                    "discount"
+                    "type",
+                    "first_name",
+                    "email",
+                    "phone",
+                    "message"
                 ],
                 "properties": {
-                    "ar_name": {
+                    "first_name": {
+                        "description": "First name of the sender",
                         "type": "string",
                         "maxLength": 255,
-                        "example": "exampleValueAR"
+                        "minLength": 3,
+                        "example": "John"
                     },
-                    "en_name": {
+                    "last_name": {
+                        "description": "Last name of the sender",
                         "type": "string",
                         "maxLength": 255,
-                        "example": "exampleValueEN"
+                        "minLength": 3,
+                        "example": "Doe"
                     },
-                    "discount": {
-                        "type": "number",
-                        "format": "double",
-                        "maximum": 100,
-                        "minimum": 0
+                    "email": {
+                        "description": "Email address of the sender",
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255,
+                        "example": "john.doe@example.com"
                     },
-                    "ar_description": {
+                    "phone": {
+                        "description": "Phone number of the sender",
                         "type": "string",
                         "maxLength": 255,
-                        "example": "exampleValueAR"
+                        "minLength": 8,
+                        "example": "+1234567890"
                     },
-                    "en_description": {
+                    "message": {
+                        "description": "Content of the message",
                         "type": "string",
-                        "maxLength": 255,
-                        "example": "exampleValueEN"
-                    },
-                    "image": {
-                        "type": "string",
-                        "format": "binary"
-                    }
-                },
-                "type": "object"
-            },
-            "UpdateOfferRequest": {
-                "properties": {
-                    "ar_name": {
-                        "type": "string",
-                        "maxLength": 255,
-                        "example": "exampleValueAR"
-                    },
-                    "en_name": {
-                        "type": "string",
-                        "maxLength": 255,
-                        "example": "exampleValueEN"
-                    },
-                    "discount": {
-                        "type": "number",
-                        "format": "double",
-                        "maximum": 100,
-                        "minimum": 0
-                    },
-                    "ar_description": {
-                        "type": "string",
-                        "maxLength": 255,
-                        "example": "exampleValueAR"
-                    },
-                    "en_description": {
-                        "type": "string",
-                        "maxLength": 255,
-                        "example": "exampleValueEN"
-                    },
-                    "image": {
-                        "type": "string",
-                        "format": "binary"
+                        "maxLength": 65535,
+                        "example": "This is a test message."
                     }
                 },
                 "type": "object"
@@ -3863,6 +2415,44 @@
                 },
                 "type": "object"
             },
+            "FileResource": {
+                "properties": {
+                    "id": {
+                        "description": "ID of the file",
+                        "type": "integer"
+                    },
+                    "path": {
+                        "description": "Path of the file",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Name of the file",
+                        "type": "string"
+                    },
+                    "url": {
+                        "description": "URL of the file",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "MIME type of the file",
+                        "type": "string"
+                    },
+                    "extension": {
+                        "description": "File extension",
+                        "type": "string"
+                    },
+                    "size": {
+                        "description": "Size of the file in bytes",
+                        "type": "integer"
+                    },
+                    "deleted_at": {
+                        "description": "Timestamp when the file was deleted",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "InfoResource": {
                 "properties": {
                     "id": {
@@ -3960,54 +2550,6 @@
                     }
                 },
                 "type": "object"
-            },
-            "ContactMessage": {
-                "title": "Contact Message",
-                "description": "Contact message model",
-                "required": [
-                    "id",
-                    "name",
-                    "email",
-                    "message",
-                    "created_at",
-                    "updated_at"
-                ],
-                "properties": {
-                    "id": {
-                        "description": "The ID of the contact message",
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "name": {
-                        "description": "The name of the person who sent the message",
-                        "type": "string",
-                        "example": "John Doe"
-                    },
-                    "email": {
-                        "description": "The email of the person who sent the message",
-                        "type": "string",
-                        "format": "email",
-                        "example": "johndoe@example.com"
-                    },
-                    "message": {
-                        "description": "The message content",
-                        "type": "string",
-                        "example": "Hello, I would like to know more about your services."
-                    },
-                    "created_at": {
-                        "description": "The time when the message was created",
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2021-01-01T00:00:00Z"
-                    },
-                    "updated_at": {
-                        "description": "The time when the message was last updated",
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2021-01-01T00:00:00Z"
-                    }
-                },
-                "type": "object"
             }
         },
         "headers": {
@@ -4033,26 +2575,6 @@
             "description": "Admin"
         },
         {
-            "name": "Admin - Branch",
-            "description": "Admin - Branch"
-        },
-        {
-            "name": "Admin - ContactMessage",
-            "description": "Admin - ContactMessage"
-        },
-        {
-            "name": "Admin - Info",
-            "description": "Admin - Info"
-        },
-        {
-            "name": "Admin - Offer",
-            "description": "Admin - Offer"
-        },
-        {
-            "name": "Admin - Products",
-            "description": "Admin - Products"
-        },
-        {
             "name": "Admin - Section",
             "description": "Admin - Section"
         },
@@ -4073,24 +2595,20 @@
             "description": "Admin - Auth"
         },
         {
-            "name": "App - Branch",
-            "description": "App - Branch"
-        },
-        {
             "name": "App - Info",
             "description": "App - Info"
         },
         {
-            "name": "General",
-            "description": "General"
+            "name": "Admin - Info",
+            "description": "Admin - Info"
         },
         {
-            "name": "General - Offer",
-            "description": "General - Offer"
+            "name": "App - Notifications",
+            "description": "App - Notifications"
         },
         {
-            "name": "App - Products",
-            "description": "App - Products"
+            "name": "Admin - Notifications",
+            "description": "Admin - Notifications"
         },
         {
             "name": "App - Sections",

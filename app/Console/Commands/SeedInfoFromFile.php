@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Artisan;
-use App\Services\Admin\Info\InfoService;
+use App\Services\Info\InfoService;
 
 class SeedInfoFromFile extends Command
 {
