@@ -243,4 +243,59 @@ class AuthService
     }
 
 
+    
+    public function uploadIdentityImage(Request $request)
+    {
+        $request->validate([
+            'identity_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        ]);
+
+        $user = auth()->user();
+
+        // if ($user->is_active) {
+        //     return response()->json(['message' => __('messages.account_already_activated')], 400);
+        // }
+
+        $imagePath = $request->file('identity_image')->storePublicly('users/images', 'public');
+
+        $user->identity_image = $imagePath;
+        $user->identity_image_verified_at = null; 
+        $user->save();
+
+        return response()->json([
+            'message' => __('messages.identity_image_uploaded_pending_approval'), 
+            'identity_image' => asset('storage/' . $imagePath) 
+        ]);
+    }
+
+
+    public function getPendingIdentityImageRequests()
+    {
+        $users = User::whereNotNull('identity_image')
+                    ->whereNull('identity_image_verified_at')
+                    ->get();
+
+
+        return response()->json([
+            'users' => $users
+        ]);
+    }
+
+    public function approveIdentityImage($userId)
+    {
+        $user = User::findOrFail($userId);
+
+        if (empty($user->identity_image)) {
+            return response()->json(['message' => __('messages.no_identity_image_uploaded')], 400);
+        }
+
+        $user->identity_image_verified_at = Carbon::now();
+        $user->is_active = 1;
+        $user->email_verified_at = Carbon::now();
+        $user->save();
+
+        return response()->json(['message' => __('messages.identity_image_approved_and_account_activated')]);
+    }
+
+
 }

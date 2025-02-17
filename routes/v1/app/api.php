@@ -19,7 +19,8 @@ Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants
 });
 
 Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants::SERVICE_PROVIDER_ROLE]], function () {
- 
+    Route::post('upload-identity-image', [AppAuthController::class, 'uploadIdentityImage']);
+
 });
 
 Route::middleware(['auth:api', 'role:' . Constants::SERVICE_PROVIDER_ROLE . '|' . Constants::USER_ROLE])->group(function () {

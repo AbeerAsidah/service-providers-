@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('password');
             $table->dateTime('last_active_at')->nullable();
             $table->boolean('is_active')->default(1);
+            $table->string('identity_image')->nullable();
+            $table->timestamp('identity_image_verified_at ')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

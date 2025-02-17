@@ -130,4 +130,38 @@ class AuthController extends Controller
             return error($e->getMessage(), null, $e->getCode());
         }
     }
+
+    
+
+
+    public function uploadIdentityImage(Request $request)
+    {
+        try {
+            $user = auth()->user();
+            $response = $this->authService->uploadIdentityImage($request, $user);
+            return success($response); 
+        } catch (\Exception $e) {
+            return error($e->getMessage(), null, $e->getCode());  
+        }
+    }
+
+    public function getPendingIdentityImageRequests()
+    {
+        try {
+            $users = $this->authService->getPendingIdentityImageRequests();
+            return success(['users' => $users]);  
+        } catch (\Exception $e) {
+            return error($e->getMessage(), null, $e->getCode());  
+        }
+    }
+
+    public function approveIdentityImage($userId)
+    {
+        try {
+            $response = $this->authService->approveIdentityImage($userId);
+            return success($response);  
+        } catch (\Exception $e) {
+            return error($e->getMessage(), null, $e->getCode());  
+        }
+    }
 }

@@ -10,13 +10,20 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
-        'provider_id', 'name', 'category', 'description', 'price', 'completion_time', 'status'
+        'service_provider_id', 'category_id', 'name', 'description', 'price', 'complete_time', 'status', 'image'
     ];
 
     public function provider()
     {
-        return $this->belongsTo(User::class, 'provider_id');
+        return $this->belongsTo(User::class, 'service_provider_id');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+
 
     public function orders()
     {

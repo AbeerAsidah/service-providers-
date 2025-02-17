@@ -30,6 +30,8 @@ class User extends Authenticatable
         'email_verified_at',
         'password',
         'is_active',
+        'identity_image',
+        'identity_image_verified_at',
         'last_active_at',
     ];
 
