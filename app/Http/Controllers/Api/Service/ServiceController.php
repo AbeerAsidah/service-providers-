@@ -9,6 +9,8 @@ use App\Http\Requests\Api\Service\UpdateServiceRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Service;
+use App\Http\Requests\Api\Service\ChangeServiceStatusRequest;
+
 
 class ServiceController extends Controller
 {
@@ -24,13 +26,16 @@ class ServiceController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $services = $this->service->getAll(
-            $request->query('trashOnly', false), 
-            $request->query('paginate', false), 
-            $request->query('limit', 10)
-        );
-        
-        return response()->json($services, 200);
+        try {
+            $services = $this->service->getAll(
+                $request->query('trashOnly', false), 
+                $request->query('paginate', false), 
+                $request->query('limit', 10)
+            );
+            return success(['services' => $services]);
+        } catch (\Throwable $th) {
+            return error($th->getMessage(), [$th->getMessage()], 400);
+        }
     }
 
     /**
@@ -38,8 +43,12 @@ class ServiceController extends Controller
      */
     public function store(StoreServiceRequest $request): JsonResponse
     {
-        $service = $this->service->store($request);
-        return response()->json($service, 201);
+        try {
+            $service = $this->service->store($request);
+            return success(['service' => $service], 201);
+        } catch (\Throwable $th) {
+            return error($th->getMessage(), [$th->getMessage()], 400);
+        }
     }
 
     /**
@@ -47,8 +56,12 @@ class ServiceController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $service = $this->service->show($id);
-        return response()->json($service, 200);
+        try {
+            $service = $this->service->show($id);
+            return success(['service' => $service]);
+        } catch (\Throwable $th) {
+            return error($th->getMessage(), [$th->getMessage()], 404);
+        }
     }
 
     /**
@@ -56,18 +69,25 @@ class ServiceController extends Controller
      */
     public function update(UpdateServiceRequest $request, Service $service): JsonResponse
     {
-        $updatedService = $this->service->update($request, $service);
-        return response()->json($updatedService, 200);
+        try {
+            $updatedService = $this->service->update($request, $service);
+            return success(['service' => $updatedService]);
+        } catch (\Throwable $th) {
+            return error($th->getMessage(), [$th->getMessage()], 400);
+        }
     }
 
     /**
      * Remove the specified service from storage.
      */
-    public function destroy(int $id, Request $request): JsonResponse
+    public function destroy(int $id, $force = null): JsonResponse
     {
-        $force = $request->query('force', false);
-        $this->service->delete($id, $force);
-        return response()->json(['message' => 'Service deleted successfully'], 200);
+        try {
+            $this->service->delete($id, $force);
+            return success(['message' =>  __('messages.service_delete_success')]);
+        } catch (\Throwable $th) {
+            return error($th->getMessage(), [$th->getMessage()], 400);
+        }
     }
 
     /**
@@ -75,7 +95,43 @@ class ServiceController extends Controller
      */
     public function restore(int $id): JsonResponse
     {
-        $this->service->restore($id);
-        return response()->json(['message' => 'Service restored successfully'], 200);
+        try {
+            $this->service->restore($id);
+            return success(['message' =>  __('messages.service_restore_success')]);
+        } catch (\Throwable $th) {
+            return error($th->getMessage(), [$th->getMessage()], 400);
+        }
     }
+
+
+    public function changeStatus(ChangeServiceStatusRequest $request , int $id): JsonResponse
+    {
+        try {
+          $service =  $this->service->changeStatus($request, $id);
+            return success(['service' => $service,'message' =>  __('messages.status_updated')]);
+        } catch (\Throwable $th) {
+            return error($th->getMessage(), [$th->getMessage()], 400);
+        }
+    }
+
+    public function searchServices(Request $request)
+    {
+        try {
+            $searchTerm = $request->input('search_term');
+            $paginate = $request->input('paginate', false);
+            $limit = $request->input('limit', 10);
+
+            $services = $this->service->searchServices($searchTerm, $paginate, $limit);
+
+            return success([
+                'services' => $services,
+                'message' => __('messages.services_found')
+            ]);
+        } catch (\Throwable $th) {
+            return error($th->getMessage(), [$th->getMessage()], 400);
+        }
+    }
+
+
+
 }

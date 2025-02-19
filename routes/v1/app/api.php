@@ -3,6 +3,8 @@ use App\Constants\Constants;
 use App\Http\Controllers\Api\General\Info\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Service\ServiceController;
+
 use App\Http\Controllers\Api\Auth\AuthController as AppAuthController;
 
 /** @Auth */
@@ -21,6 +23,14 @@ Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants
 Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants::SERVICE_PROVIDER_ROLE]], function () {
     Route::post('upload-identity-image', [AppAuthController::class, 'uploadIdentityImage']);
 
+    Route::prefix('services')->group(function () {
+        Route::post('/', [ServiceController::class, 'store']); 
+        Route::put('/{service}', [ServiceController::class, 'update']); 
+        Route::delete('/{id}', [ServiceController::class, 'destroy']); 
+        Route::patch('/{id}/restore', [ServiceController::class, 'restore']);
+        Route::put('/{id}/changeStatus', [ServiceController::class, 'changeStatus']);
+    });
+
 });
 
 Route::middleware(['auth:api', 'role:' . Constants::SERVICE_PROVIDER_ROLE . '|' . Constants::USER_ROLE])->group(function () {
@@ -29,5 +39,14 @@ Route::middleware(['auth:api', 'role:' . Constants::SERVICE_PROVIDER_ROLE . '|' 
     Route::get('profile', [AuthController::class, 'profile']);//
     Route::put('change-password', [AuthController::class, 'changePassword']);//
     Route::put('profile/update', [AuthController::class, 'updateProfile']);//
+
+    Route::prefix('services')->group(function () {
+        Route::get('/', [ServiceController::class, 'index']); 
+        Route::get('/{id}', [ServiceController::class, 'show']); 
+        Route::post('/search', [ServiceController::class, 'searchServices']); 
+
+    });
+
+    
     });
 

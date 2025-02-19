@@ -14,15 +14,16 @@ class StoreServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'service_provider_id' => 'required|exists:users,id',
+            'service_provider_id' => 'nullable|exists:users,id',
             'category_id' => 'required|exists:categories,id',
             'ar_name' => 'required|string|max:255',
             'en_name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'ar_description' => 'nullable|string',
+            'en_description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'complete_time' => 'required|integer|min:1',
-            'status' => 'required|in:active,inactive',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'required|in:active,disabled',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ];
     }
 }

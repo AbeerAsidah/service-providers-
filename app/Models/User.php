@@ -78,7 +78,7 @@ class User extends Authenticatable
 
     public function services()
     {
-        return $this->hasMany(Service::class, 'provider_id');
+        return $this->hasMany(Service::class, 'service_provider_id');
     }
 
     public function orders()

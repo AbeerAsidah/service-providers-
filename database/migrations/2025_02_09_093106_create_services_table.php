@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('service_provider_id')->constrained('users')->onDelete('cascade');
-            $table->string('name');
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); 
-            $table->text('description');
+            $table->json('name');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade'); 
+            $table->json('description');
             $table->decimal('price', 10, 2);
             $table->integer('complete_time'); 
             $table->enum('status', ['active', 'disabled'])->default('active');

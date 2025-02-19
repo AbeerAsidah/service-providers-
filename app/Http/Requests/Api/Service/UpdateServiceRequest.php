@@ -14,14 +14,16 @@ class UpdateServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'service_provider_id' => 'nullable|exists:users,id',
             'category_id' => 'nullable|exists:categories,id',
             'ar_name' => 'nullable|string|max:255',
             'en_name' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
+            'ar_description' => 'nullable|string',
+            'en_description' => 'nullable|string',
             'price' => 'nullable|numeric|min:0',
             'complete_time' => 'nullable|integer|min:1',
-            'status' => 'nullable|in:active,inactive',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'nullable|in:active,disabled',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ];
     }
 }

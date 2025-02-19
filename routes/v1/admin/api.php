@@ -3,6 +3,10 @@
 use App\Constants\Constants;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Category\CategoryController;
+use App\Http\Controllers\Api\Service\ServiceController;
+
+
 
 /** @Auth */
 Route::post('login', [AuthController::class, 'login'])->name('admin.login');//
@@ -23,14 +27,16 @@ Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants
 
 Route::prefix('services')->group(function () {
     Route::get('/', [ServiceController::class, 'index']); 
-    Route::post('/', [ServiceController::class, 'store']); // إنشاء خدمة جديدة
-    Route::get('/{id}', [ServiceController::class, 'show']); // عرض خدمة معينة
-    Route::put('/{service}', [ServiceController::class, 'update']); // تحديث الخدمة
-    Route::delete('/{id}', [ServiceController::class, 'destroy']); // حذف الخدمة (ناعم أو نهائي)
-    Route::post('/restore/{id}', [ServiceController::class, 'restore']); // استعادة خدمة محذوفة
-    Route::get('/all', [ServiceController::class, 'getAllServices']); // جلب كل الخدمات
-    Route::get('/categories', [ServiceController::class, 'getCategories']); // جلب التصنيفات
-    Route::get('/{id}/manufacture-years', [ServiceController::class, 'getManufactureYears']); // جلب سنوات التصنيع
+    Route::post('/', [ServiceController::class, 'store']); 
+    Route::get('/{id}', [ServiceController::class, 'show']); 
+    Route::put('/{service}', [ServiceController::class, 'update']); 
+    Route::delete('/{id}', [ServiceController::class, 'destroy']); 
+    Route::patch('/{id}/restore', [ServiceController::class, 'restore']);
+    Route::put('/{id}/changeStatus', [ServiceController::class, 'changeStatus']);
+    Route::post('/search', [ServiceController::class, 'searchServices']); 
+
+
+
 });
 
 
@@ -40,6 +46,17 @@ Route::prefix('users')->group(function () {
     Route::get('/pending-identity-image-requests', [AuthController::class, 'getPendingIdentityImageRequests']);
     Route::post('/approve-identity-image/{userId}', [AuthController::class, 'approveIdentityImage']);
     
+});
+
+Route::prefix('categories')->group(function () {
+    Route::get('/', [CategoryController::class, 'index']);
+    Route::get('/{id}', [CategoryController::class, 'show']);
+    Route::post('/', [CategoryController::class, 'store']);
+    Route::put('/{category}', [CategoryController::class, 'update']);
+    Route::delete('/{id}/{force?}', [CategoryController::class, 'delete']);
+    Route::patch('/{id}/restore', [CategoryController::class, 'restore']);
+    Route::get('/{categoryId}/services', [CategoryController::class, 'getServicesByCategory'])->name('getServicesByCategory');
+
 });
 
 
