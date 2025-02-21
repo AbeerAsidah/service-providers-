@@ -77,7 +77,7 @@ class ServService
         ];
 
         $service = Service::create($data);
-
+        $service->refresh(); 
         return $service;
     }
 
@@ -123,6 +123,7 @@ class ServService
 
         // Update the service data
         $service->update($data);
+        $service->refresh(); 
 
         return $service;
     }

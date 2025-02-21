@@ -10,7 +10,7 @@ use App\Constants\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use App\Http\Resources\UserRecourse;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Services\User\UserService;
@@ -19,6 +19,7 @@ use App\Services\Notification\NotificationService;
 use App\Http\Requests\Api\Auth\ResetPasswordRequest;
 use App\Http\Requests\Api\Auth\UpdateProfileRequest;
 use App\Http\Requests\Api\Auth\SignUpRequest;
+use App\Http\Requests\Api\Auth\SignUpServiceProviderRequest;
 use App\Http\Requests\Api\Auth\ChangePasswordRequest;
 use App\Http\Requests\Api\Auth\SendVerificationCodeRequest;
 use App\Http\Requests\Api\Auth\CheckVerificationCodeRequest;
@@ -231,15 +232,15 @@ class AuthService
         $user = $this->userService->createUser($request);
         //todo complet it
         // $this->notificationService->pushAdminsNotifications(Notifications::NEW_REGISTRATION, $user);
-        return ['user' => new UserRecourse($user)];
+        return ['user' => new UserResource($user)];
     }
 
-    public function registerServiceProvider(SignUpRequest $request): array
+    public function registerServiceProvider(SignUpServiceProviderRequest $request): array
     {
         $user = $this->userService->createServiceProvider($request);
         //todo complet it
         // $this->notificationService->pushAdminsNotifications(Notifications::NEW_REGISTRATION, $user);
-        return ['user' => new UserRecourse($user)];
+        return ['user' => new UserResource($user)];
     }
 
 

@@ -12,6 +12,10 @@ return [
     'unauthorized_action' => 'You are not authorized to perform this action.',
     'status_updated' => 'Status updated successfully.',
     'services_found' => 'Services found successfully',
-
+    
+    'item_added_to_cart' => 'Item added to cart successfully.',
+    'cart_updated' => 'Cart updated successfully.',
+    'cart_fetched' => 'Cart fetched successfully.',
+    'item_removed_from_cart' => 'Item removed from cart successfully.',
 
 ];

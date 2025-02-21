@@ -5,7 +5,7 @@ namespace App\Http\Requests\Api\Auth;
 use App\Traits\HandlesValidationErrorsTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SignUpRequest extends FormRequest
+class SignUpServiceProviderRequest extends FormRequest
 {
     use HandlesValidationErrorsTrait;
 
@@ -27,6 +27,7 @@ class SignUpRequest extends FormRequest
         return [
             'username' => 'required|string|max:255|unique:users,username',
             'email' => 'required|email|max:255|unique:users,email',
+            'name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
             'password' => 'required|string|min:8',
             // 'image' => 'file|mimes:png,jpg,jpeg,webp',

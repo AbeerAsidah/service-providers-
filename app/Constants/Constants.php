@@ -10,18 +10,25 @@ class Constants
     const MALE_GENDER = 'MALE';
     const FEMALE_GENDER = 'FEMALE';
 
+    // const ORDER_STATUSES = [
+    //     'pending' => [
+    //         'ar' => 'معلق',
+    //         'en' => 'pending',
+    //     ],
+    //     'rejected' => [
+    //         'ar' => 'مرفوض',
+    //         'en' => 'rejected',
+    //     ],
+    //     'completed' => [
+    //         'ar' => 'مكتمل',
+    //         'en' => 'completed',
+    //     ],
+    // ];
+
     const ORDER_STATUSES = [
-        'pending' => [
-            'ar' => 'معلق',
-            'en' => 'pending',
-        ],
-        'rejected' => [
-            'ar' => 'مرفوض',
-            'en' => 'rejected',
-        ],
-        'completed' => [
-            'ar' => 'مكتمل',
-            'en' => 'completed',
-        ],
+        'in_progress' ,
+        'completed',
+        'canceled'
     ];
+    
 }

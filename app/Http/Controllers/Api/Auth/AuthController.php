@@ -13,6 +13,8 @@ use App\Http\Requests\Api\Auth\ChangePasswordRequest;
 use App\Http\Requests\Api\Auth\SendVerificationCodeRequest;
 use App\Http\Requests\Api\Auth\CheckVerificationCodeRequest;
 use App\Http\Requests\Api\Auth\SignUpRequest;
+use App\Http\Requests\Api\Auth\SignUpServiceProviderRequest;
+
 
 class AuthController extends Controller
 {
@@ -121,7 +123,7 @@ class AuthController extends Controller
         }
     }
 
-    public function registerServiceProvider(SignUpRequest $request): JsonResponse
+    public function registerServiceProvider(SignUpServiceProviderRequest $request): JsonResponse
     {
         try {
             $data = $this->authService->registerServiceProvider($request);

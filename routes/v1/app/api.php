@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\General\Info\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Service\ServiceController;
+use App\Http\Controllers\Api\Cart\CartItemController;
 
 use App\Http\Controllers\Api\Auth\AuthController as AppAuthController;
 
@@ -17,7 +18,13 @@ Route::post('registerServiceProvider', [AppAuthController::class, 'registerServi
 
 
 Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants::USER_ROLE]], function () {
- 
+   
+    Route::prefix('cart')->group(function () {
+        Route::post('/', [CartItemController::class, 'addToCart']);
+        Route::put('/update', [CartItemController::class, 'updateCart']);
+        Route::get('/', [CartItemController::class, 'viewCart']); 
+        Route::delete('/remove', [CartItemController::class, 'removeFromCart']);
+    });
 });
 
 Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants::SERVICE_PROVIDER_ROLE]], function () {

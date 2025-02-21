@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Constants\Constants;
 
 return new class extends Migration
 {
@@ -12,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('provider_id')->constrained('users')->onDelete('cascade');
-            $table->decimal('total_price', 10, 2);
-            $table->enum('status', Constants::ORDER_STATUSES)->default(Constants::ORDER_STATUSES[0]);
+            $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
+            $table->integer('quantity')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('cart_items');
     }
 };

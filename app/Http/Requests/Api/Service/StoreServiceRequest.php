@@ -22,7 +22,7 @@ class StoreServiceRequest extends FormRequest
             'en_description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'complete_time' => 'required|integer|min:1',
-            'status' => 'required|in:active,disabled',
+            // 'status' => 'required|in:active,disabled',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ];
     }
