@@ -26,6 +26,7 @@ class Constants
     // ];
 
     const ORDER_STATUSES = [
+        'pending' ,
         'in_progress' ,
         'completed',
         'canceled'

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Category\CategoryController;
 use App\Http\Controllers\Api\Service\ServiceController;
+use App\Http\Controllers\Api\Order\OrderController;
 
 
 
@@ -56,6 +57,15 @@ Route::prefix('categories')->group(function () {
     Route::delete('/{id}/{force?}', [CategoryController::class, 'delete']);
     Route::patch('/{id}/restore', [CategoryController::class, 'restore']);
     Route::get('/{categoryId}/services', [CategoryController::class, 'getServicesByCategory'])->name('getServicesByCategory');
+
+});
+
+Route::prefix('orders')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/items/{orderId}', [OrderController::class, 'getOrderItemsAsAdmin'])->name('orders.items');
+    Route::get('/show/{orderId}', [OrderController::class, 'getOrder']);
+    Route::put('/{id}/update-status', [OrderController::class, 'updateStatus'])->name('updateStatus.orders');
+    Route::put('/{id}/update-status-item', [OrderController::class, 'updateOrderDetailStatus']);
 
 });
 

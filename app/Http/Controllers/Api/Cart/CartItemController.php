@@ -56,14 +56,14 @@ class CartItemController extends Controller
         }
     }
 
-    public function removeFromCart(Request $request)
+    public function removeFromCart(int $serviceId)
     {
         try {
-            $request->validate([
-                'service_id' => 'required|exists:services,id',
-            ]);
+            // $request->validate([
+            //     'service_id' => 'required|exists:services,id',
+            // ]);
 
-            $this->cartService->removeFromCart(auth()->id(), $request->service_id);
+            $this->cartService->removeFromCart(auth()->id(), $serviceId);
             return success(['message' => __('messages.item_removed_from_cart')]);
         } catch (Exception $e) {
             return error($e->getMessage(), [], 400);

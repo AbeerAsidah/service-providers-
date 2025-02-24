@@ -13,7 +13,7 @@ class Service extends Model
     use HasFactory , SoftDeletes, HasTranslations;  
 
     protected $fillable = [
-        'service_provider_id', 'category_id', 'name', 'description', 'price', 'complete_time', 'status', 'image'
+        'service_provider_id', 'category_id', 'name', 'description', 'price', 'complete_time', 'complete_time_unit' ,'status', 'image'
     ];
     public $translatable = ['name', 'description'];
 

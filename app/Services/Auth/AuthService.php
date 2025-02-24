@@ -78,7 +78,7 @@ class AuthService
             $this->userService->handleFcmToken($user, $request->fcm_token);
         }
         $user['token'] = $token;
-        return ['user' => new UserRecourse($user)];
+        return ['user' => new UserResource($user)];
     }
 
     function logout(): true

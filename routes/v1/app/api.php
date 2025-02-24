@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Service\ServiceController;
 use App\Http\Controllers\Api\Cart\CartItemController;
-
+use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Auth\AuthController as AppAuthController;
 
 /** @Auth */
@@ -23,7 +23,15 @@ Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants
         Route::post('/', [CartItemController::class, 'addToCart']);
         Route::put('/update', [CartItemController::class, 'updateCart']);
         Route::get('/', [CartItemController::class, 'viewCart']); 
-        Route::delete('/remove', [CartItemController::class, 'removeFromCart']);
+        Route::delete('/remove/{serviceId}', [CartItemController::class, 'removeFromCart']);
+    });
+
+
+    Route::prefix('/orders')->group(function () {
+        Route::post('/', [OrderController::class, 'placeOrder'])->name('order.place');
+        Route::get('/myOrders', [OrderController::class, 'myOrders'])->name('order.myOrders');
+        Route::get('/{order}', [OrderController::class, 'orderItems'])->name('order.orderItems');
+
     });
 });
 
@@ -36,6 +44,14 @@ Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants
         Route::delete('/{id}', [ServiceController::class, 'destroy']); 
         Route::patch('/{id}/restore', [ServiceController::class, 'restore']);
         Route::put('/{id}/changeStatus', [ServiceController::class, 'changeStatus']);
+    });
+
+
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [OrderController::class, 'getProviderOrderItems'])->name('orders.index');
+        Route::get('/show/{orderItemId}', [OrderController::class, 'getOrderItem'])->name('orders.show');
+        Route::put('/{id}/update-status', [OrderController::class, 'updateOrderDetailStatus'])->name('updateStatus.orders');
+
     });
 
 });

@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade'); 
             $table->json('description');
             $table->decimal('price', 10, 2);
-            $table->integer('complete_time'); 
+            $table->integer('complete_time')->nullable();
+            $table->enum('complete_time_unit', ['minutes', 'hours', 'days'])->default('minutes'); 
             $table->enum('status', ['active', 'disabled'])->default('active');
             $table->string('image');
             $table->softDeletes();

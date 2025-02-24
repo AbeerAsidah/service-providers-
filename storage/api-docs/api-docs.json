@@ -231,6 +231,48 @@
                 },
                 "type": "object"
             },
+            "CartItemResource": {
+                "title": "CartItemResource",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryResource": {
+                "title": "CategoryResource",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "InfoResource": {
                 "properties": {
                     "id": {
@@ -267,6 +309,27 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2023-01-01T00:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "ReviewResource": {
+                "title": "ReviewResource",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"

@@ -70,8 +70,14 @@ class CartService
                 ->where('service_id', $serviceId)
                 ->delete();
         } catch (Exception $e) {
-            Log::error('Error removing from cart: ' . $e->getMessage());
             throw new Exception('Failed to remove item from cart.');
         }
     }
+
+
+    public function clearCart(int $userId): void
+    {
+        CartItem::where('user_id', $userId)->forceDelete();
+    }
+
 }

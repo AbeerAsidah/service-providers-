@@ -17,5 +17,11 @@ return [
     'cart_updated' => 'Cart updated successfully.',
     'cart_fetched' => 'Cart fetched successfully.',
     'item_removed_from_cart' => 'Item removed from cart successfully.',
+    'cart_empty' => 'Your cart is currently empty. Please add items to proceed.',
+
+    'unauthorized_access' => 'You are not authorized to access this order.',
+
+    'order_details_fetched_successfully' => 'Order details fetched successfully.',
+    'failed_to_fetch_order_details' => 'Failed to fetch order details.',
 
 ];

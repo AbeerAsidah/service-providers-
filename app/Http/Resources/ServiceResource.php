@@ -31,6 +31,7 @@ class ServiceResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'complete_time' => $this->complete_time,
+            'complete_time_unit' => $this->complete_time_unit,
             'status' => $this->status,
             'image' => $this->image ? asset("storage/{$this->image}") : null,
             'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
@@ -40,3 +41,4 @@ class ServiceResource extends JsonResource
         ];
     }
 }
+ 

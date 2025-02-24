@@ -17,4 +17,8 @@ return [
     'cart_updated' => 'تم تحديث السلة بنجاح.',
     'cart_fetched' => 'تم جلب محتويات السلة بنجاح.',
     'item_removed_from_cart' => 'تمت إزالة العنصر من السلة بنجاح.',
+    'cart_empty' => 'سلتك فارغة حالياً. يرجى إضافة عناصر للمتابعة.',
+    'unauthorized_access' => 'ليس لديك الصلاحية للوصول إلى هذا الطلب.',
+    'order_details_fetched_successfully' => 'تم جلب تفاصيل الطلب بنجاح.',
+    'failed_to_fetch_order_details' => 'فشل في جلب تفاصيل الطلب.',
 ];
