@@ -24,4 +24,10 @@ return [
     'order_details_fetched_successfully' => 'Order details fetched successfully.',
     'failed_to_fetch_order_details' => 'Failed to fetch order details.',
 
+
+    'review_added' => 'Review added successfully!',
+    'review_updated' => 'Review updated successfully!',
+    'review_deleted' => 'Review deleted successfully!',
+    'reviews_fetched' => 'Reviews fetched successfully!',
+    'average_rating_fetched' => 'Average rating fetched successfully!',
 ];

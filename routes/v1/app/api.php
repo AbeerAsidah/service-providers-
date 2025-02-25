@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Service\ServiceController;
 use App\Http\Controllers\Api\Cart\CartItemController;
 use App\Http\Controllers\Api\Order\OrderController;
+use App\Http\Controllers\Api\Review\ReviewController;
 use App\Http\Controllers\Api\Auth\AuthController as AppAuthController;
 
 /** @Auth */
@@ -31,7 +32,12 @@ Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants
         Route::post('/', [OrderController::class, 'placeOrder'])->name('order.place');
         Route::get('/myOrders', [OrderController::class, 'myOrders'])->name('order.myOrders');
         Route::get('/{order}', [OrderController::class, 'orderItems'])->name('order.orderItems');
+    });
 
+    Route::prefix('reviews')->group(function () {
+        Route::post('/{service}', [ReviewController::class, 'store']); 
+        Route::put('/{review}', [ReviewController::class, 'update']); 
+        Route::delete('/{review}', [ReviewController::class, 'destroy']); 
     });
 });
 
@@ -69,7 +75,10 @@ Route::middleware(['auth:api', 'role:' . Constants::SERVICE_PROVIDER_ROLE . '|' 
         Route::post('/search', [ServiceController::class, 'searchServices']); 
 
     });
-
+    Route::prefix('reviews')->group(function () {
+        Route::get('/{service}', [ReviewController::class, 'getReviewsByService']); 
+        Route::get('/{service}/average', [ReviewController::class, 'getAverageRating']); 
+    });
     
     });
 

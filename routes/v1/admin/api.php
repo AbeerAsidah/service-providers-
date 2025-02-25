@@ -68,6 +68,10 @@ Route::prefix('orders')->group(function () {
     Route::put('/{id}/update-status-item', [OrderController::class, 'updateOrderDetailStatus']);
 
 });
+Route::prefix('reviews')->group(function () {
+    Route::get('/{service}', [ReviewController::class, 'getReviewsByService']); 
+    Route::get('/{service}/average', [ReviewController::class, 'getAverageRating']); 
+});
 
 
 });

@@ -21,4 +21,10 @@ return [
     'unauthorized_access' => 'ليس لديك الصلاحية للوصول إلى هذا الطلب.',
     'order_details_fetched_successfully' => 'تم جلب تفاصيل الطلب بنجاح.',
     'failed_to_fetch_order_details' => 'فشل في جلب تفاصيل الطلب.',
+
+    'review_added' => 'تم إضافة التقييم بنجاح!',
+    'review_updated' => 'تم تحديث التقييم بنجاح!',
+    'review_deleted' => 'تم حذف التقييم بنجاح!',
+    'reviews_fetched' => 'تم جلب التقييمات بنجاح!',
+    'average_rating_fetched' => 'تم جلب متوسط التقييم بنجاح!',
 ];
