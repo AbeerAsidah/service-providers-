@@ -31,7 +31,6 @@ Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants
     Route::prefix('/orders')->group(function () {
         Route::post('/', [OrderController::class, 'placeOrder'])->name('order.place');
         Route::get('/myOrders', [OrderController::class, 'myOrders'])->name('order.myOrders');
-        Route::get('/{order}', [OrderController::class, 'orderItems'])->name('order.orderItems');
     });
 
     Route::prefix('reviews')->group(function () {
@@ -54,9 +53,7 @@ Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants
 
 
     Route::prefix('orders')->group(function () {
-        Route::get('/', [OrderController::class, 'getProviderOrderItems'])->name('orders.index');
-        Route::get('/show/{orderItemId}', [OrderController::class, 'getOrderItem'])->name('orders.show');
-        Route::put('/{id}/update-status', [OrderController::class, 'updateOrderDetailStatus'])->name('updateStatus.orders');
+        Route::get('/', [OrderController::class, 'getProviderOrders'])->name('orders.index');
 
     });
 
@@ -79,6 +76,14 @@ Route::middleware(['auth:api', 'role:' . Constants::SERVICE_PROVIDER_ROLE . '|' 
         Route::get('/{service}', [ReviewController::class, 'getReviewsByService']); 
         Route::get('/{service}/average', [ReviewController::class, 'getAverageRating']); 
     });
+
+    Route::prefix('orders')->group(function () {
+        Route::get('/show/{orderItemId}', [OrderController::class, 'getOrder'])->name('orders.show');
+        Route::put('/{id}/update-status', [OrderController::class, 'updateStatus'])->name('updateStatus.orders');
+
+
+    });
+
     
     });
 

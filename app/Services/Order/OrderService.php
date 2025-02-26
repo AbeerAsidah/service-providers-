@@ -38,70 +38,80 @@ class OrderService
         }
 
         return DB::transaction(function () use ($cartItems, $userId, $validated) {
-            $order = Order::create([
-                'user_id' => $userId,
-                'total_price' => 0,
-                'status' => Constants::ORDER_STATUSES[0],
-            ]);
-    
-            $totalPrice = $cartItems->sum(function ($item) {
-                return ($item->quantity * ($item->service->price ?? 0));
-            });
+           
+            $orders = [];
 
             foreach ($cartItems as $item) {
                 if ($item->service) {
                     $subtotal = $item->quantity * $item->service->price;
                
 
-                    OrderDetail::create([
-                        'order_id' => $order->id,
+                    $order = Order::create([
+                        'user_id' => $userId,
                         'service_id' => $item->service_id,
                         'provider_id' => $item->service->service_provider_id ?? '1',
                         'price' => $item->service->price,
-                        'complete_time_unit' => $item->service->complete_time_unit,
+                        'complete_time_unit' => $item->service->complete_time_unit ?? 'minutes',
                         'complete_time' => $item->service->complete_time,
                         'quantity' => $item->quantity,
                         'total_price' => $subtotal,
                         'status' => Constants::ORDER_STATUSES[0],
                     ]);
+                    $orders[] = new OrderResource($order->load('provider', 'service'));
+
                 }
             }
 
-            $order->update(['total_price' => number_format($totalPrice, 2, '.', '')]);
 
             $this->cartService->clearCart($userId);
 
 
-            return new OrderResource($order->load('orderDetails.provider', 'orderDetails.service'));
+            return $orders;
         });
     }
 
     public function getOrder(int $orderId)
-    {
-        $order = Order::with([
-            'orderDetails.service.provider',
-            'orderDetails.service.category',
-            'orderDetails.provider'
-        ])->findOrFail($orderId);
+{
+    $user = auth()->user();
 
-        return new OrderResource($order);
+    $query = Order::with([
+        'service.provider',
+        'service.category',
+        'provider'
+    ])->where('id', $orderId);
+
+    if ($user->role == Constants::SERVICE_PROVIDER_ROLE) {
+        $query->where('provider_id', $user->id);
+    } elseif ($user->role == Constants::USER_ROLE) {
+        $query->where('user_id', $user->id);
     }
 
-    public function getAllOrders($status = null, $search = null, $paginate = false, $limit = 10, $userId = null)
+    $order = $query->first();
+
+    if (!$order) {
+        return response()->json(['message' => __('messages.failed_to_fetch_order_details')], 403);
+    }
+
+    return new OrderResource($order);
+}
+
+    public function getAllOrders($trashOnly = false, $status = null, $search = null, $paginate = false, $limit = 10, $userId = null, $providerId = null)
     {
         $query = Order::with([
-            'orderDetails.service.provider',
-            'orderDetails.service.category',
-            'orderDetails.provider'
+            'service.provider',
+            'service.category',
+            'provider'
         ]);
-
+        if ($trashOnly) {
+            $query->onlyTrashed();
+        }
         if ($status) {
             $query->where('status', $status);
         }
 
         if (!empty($search)) {
             $query->where('id', 'like', "%$search%")
-                ->orWhereHas('orderDetails.service', function ($query) use ($search) {
+                ->orWhereHas('service', function ($query) use ($search) {
                     $query->where('name', 'like', "%$search%");
                 });
         }
@@ -116,8 +126,14 @@ class OrderService
             // }
         }
 
-        return $paginate ? $query->paginate($limit) : OrderResource::collection($query->orderBy('created_at', 'desc')->get());
+        if ($providerId) {
+                $query->where('provider_id', $providerId);
+        }
+
+        return $paginate ? $query->paginate($limit) : OrderResource::collection($query->orderByDesc($trashOnly ? 'deleted_at' : 'created_at')->get());
     }
+
+
 
     public function deleteOrder(int $orderId)
     {
@@ -136,13 +152,38 @@ class OrderService
         $validatedData = $request->validated();
     
         $order = Order::findOrFail($id);
-        $order->status = $validatedData['status'];
+        $user = auth()->user();
+        if (auth()->user()->hasRole(Constants::SERVICE_PROVIDER_ROLE) && $order->provider_id !== auth()->id()) {
+            return error(__('messages.unauthorized_action'), [], 403);
+        }
+
+        if ($user->hasRole(Constants::USER_ROLE) && $order->user_id !== $user->id) {
+            return error(__('messages.unauthorized_action'), [], 403);
+        }
+
+
+    // 🔹 منطق تحديث الحالة باستخدام Constants::ORDER_STATUSES
+    if ($validatedData['status'] === Constants::ORDER_STATUSES[2]) { // 'completed'
+        if ($order->status === Constants::ORDER_STATUSES[1]) { // 'in_progress'
+            $order->status = Constants::ORDER_STATUSES[4]; // 'waiting_for_complete'
+        } elseif ($order->status === Constants::ORDER_STATUSES[4]) { // 'waiting_for_complete'
+            $order->status = Constants::ORDER_STATUSES[2]; // 'completed'
+        }
+    } elseif ($validatedData['status'] === Constants::ORDER_STATUSES[3]) { // 'canceled'
+        if ($order->status === Constants::ORDER_STATUSES[1]) { // 'in_progress'
+            $order->status = Constants::ORDER_STATUSES[5]; // 'waiting_for_cancel'
+        } elseif ($order->status === Constants::ORDER_STATUSES[5]) { // 'waiting_for_cancel'
+            $order->status = Constants::ORDER_STATUSES[3]; // 'canceled'
+        }
+    } else {
+        $order->status = $validatedData['status']; 
+    }
         $order->save();
     
 
-        if (in_array($order->status, ['completed', 'canceled'])) {
-            $order->orderDetails()->update(['status' => $order->status]);
-        }
+        // if (in_array($order->status, ['completed', 'canceled'])) {
+        //     $order->orderDetails()->update(['status' => $order->status]);
+        // }
 
         $orderUser = $order->user;
         // event(new OrderStatusUpdated($orderUser, $order, $order->status));
@@ -150,6 +191,8 @@ class OrderService
         return response()->json([
             'success' => true,
             'message' => __('messages.order_status_updated'),
+            'order_status' => $order->status
+
         ]);
     }
 
@@ -158,9 +201,9 @@ class OrderService
         return [
             "orders" => OrderResource::collection(
                 Order::with([
-                    'orderDetails.service.provider',
-                    'orderDetails.service.category',
-                    'orderDetails.provider'
+                    'service.provider',
+                    'service.category',
+                    'provider'
                 ])
                 ->where('user_id', $userId)  
                 ->orderBy('created_at', 'desc')  
@@ -168,95 +211,13 @@ class OrderService
             )
         ];   
      }
-    public function getOrderItems(int $orderId)
-    {
-        return [
-            "items" => OrderItemResource::collection(
-                $orderItems = OrderItem::with([
-                    'service.provider',
-                    'service.category',
-                    'provider'
-                ])->where('order_id', $orderId)
-                    ->orderBy('id', 'desc')
-                    ->get()
-            )
-        ];
-    }
-
-
-//provider
-
-    public function getProviderOrderItems($providerId, $status = null, $search = null, $paginate = false, $limit = 10,  $userId = null)
-    {
-        $query = OrderDetail::query();
-
-        $query->where('provider_id', $providerId)
-            ->with([
-                'service.category',
-            ]);
-
-        if ($status) {
-            $query->where('status', $status);
-        }
-
-        if ($userId) {
-          
-            // } else {
-                $query->where('user_id', $userId);
-            // }
-        }
-
-        if (!empty($search)) {
-            $query->whereHas('service', function ($query) use ($search) {
-                $query->where('name', 'like', "%$search%");
-            });
-        }
-
-
-        return $paginate ? $query->paginate($limit) : $query->orderBy('id', 'desc')->get();
-    }
+ 
 
 
 
-
-    public function getOrderItem(int $orderItemId)
-    {
-        if (auth()->user()->role == Constants::SERVICE_PROVIDER_ROLE) {
-            $orderItem = OrderDetail::with([
-                'service.category',
-            ])
-            ->where('id', $orderItemId)
-            ->where('provider_id', auth()->user()->id) 
-            ->first();
-        } else {
-            $orderItem = OrderDetail::with([
-                'service.category',
-            ])
-            ->where('id', $orderItemId)
-            ->first();
-        }
-
-        return $orderItem;
-    }
-
-    public function updateOrderDetailStatus(UpdateOrderDetailRequest $request, $id)
-    {
-        $validatedData = $request->validated();
-        
-        $orderDetail = OrderDetail::findOrFail($id);
-        if (auth()->user()->hasRole(Constants::SERVICE_PROVIDER_ROLE) && $orderDetail->provider_id !== auth()->id()) {
-            return error(__('messages.unauthorized_action'), [], 403);
-        }
-        $orderDetail->status = $validatedData['status'];
-        $orderDetail->save();
     
-        $orderUser = $orderDetail->order->user;
-        // event(new OrderStatusUpdated($orderUser, $orderDetail, $orderDetail->status));
-    
-        return response()->json([
-            'success' => true,
-            'message' => __('messages.status_updated'),
-        ]);
-    }
 
+
+
+   
 }

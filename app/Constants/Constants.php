@@ -29,7 +29,9 @@ class Constants
         'pending' ,
         'in_progress' ,
         'completed',
-        'canceled'
+        'canceled',
+        'waiting_for_complete',  
+        'waiting_for_cancel'
     ];
     
 }

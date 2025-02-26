@@ -26,15 +26,26 @@ class UpdateOrderRequest extends FormRequest
     {
         $user = Auth::user();
     
-        $statuses = Constants::ORDER_STATUSES;
-    
-        // if ($user->hasRole(Constants::SERVICE_PROVIDER_ROLE)) {
-        //     // $statuses = ['PAID', 'DELIVERING'];
-        // } 
-    
-    
+       // 🔹 تعريف الحالات المسموح بها لكل نوع مستخدم
+       if ($user->hasRole(Constants::SERVICE_PROVIDER_ROLE)) {
+        // مقدم الخدمة يمكنه إدخال in_progress, completed, أو canceled
+        $allowedStatuses = [
+            Constants::ORDER_STATUSES[1], // 'in_progress'
+            Constants::ORDER_STATUSES[2], // 'completed'
+            Constants::ORDER_STATUSES[3]  // 'canceled'
+        ];
+    } elseif ($user->hasRole(Constants::USER_ROLE)) {
+        // المستخدم العادي يمكنه إدخال completed أو canceled فقط
+        $allowedStatuses = [
+            Constants::ORDER_STATUSES[2], // 'completed'
+            Constants::ORDER_STATUSES[3]  // 'canceled'
+        ];
+    } else {
+        // أي مستخدم آخر (مقدم خدمة أو مسؤول) يمكنه إدخال أي حالة متاحة
+        $allowedStatuses = Constants::ORDER_STATUSES;
+    }
         return [
-            'status' => 'required|string|in:' . implode(',', $statuses),    
+            'status' => 'required|string|in:' . implode(',', $allowedStatuses),    
         ];
     }
     

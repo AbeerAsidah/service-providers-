@@ -22,7 +22,7 @@ class ServiceResource extends JsonResource
             'id' => $this->id,
             'provider' => $this->whenLoaded('provider', function () {
                 return [
-                    'name' => $this->provider->name,
+                    'name' => $this->provider->username,
                     'phone_number' => $this->provider->phone_number,
                 ];
             }),       

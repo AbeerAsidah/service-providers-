@@ -32,25 +32,27 @@ class OrderResource extends JsonResource
      */
     public function toArray($request)
     {
-        // $totalPrice = number_format($this->items->sum(function ($item) {
-        //     return $item->total_price; 
-        // }), 2, '.', ''); 
-    
+        // $serviceResource = $this->relationLoaded('service') && $this->service ? new ServiceResource($this->service) : __('messages.service_not_available');
         return [
             'id' => $this->id,
             'user' => [
                 'id' => $this->user->id ?? null,
                 'username' => $this->user->username ?? null,
-            ],
+            ],            // 'service_id' => $this->service_id,
+            'quantity' => $this->quantity,
+            'total_price' => $this->total_price,
             'status_name' =>  $this->status,
             // 'status' => __('orders.' . $this->status),
-            // 'payment_id' => $this->payment_id,                
-            'items' => OrderDetailResource::collection($this->orderDetails),
-            'total_price' => $this->total_price, 
+            // 'payment_id' => $this->payment_id,        
+            'complete_time_unit' => $this->complete_time_unit,
+            'complete_time' => $this->complete_time,
+            'service' => $this->whenLoaded('service', fn() => new ServiceResource($this->service), __('messages.service_not_available')),
+            'provider' => $this->whenLoaded('provider', fn() => [
+                'name' => $this->provider->name,
+                'phone_number' => $this->provider->phone_number
+            ], __('messages.provider_not_available')),       
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-             
-
-        ];
+            'updated_at' => $this->updated_at, ];
+        
     }
 }

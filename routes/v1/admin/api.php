@@ -62,10 +62,9 @@ Route::prefix('categories')->group(function () {
 
 Route::prefix('orders')->group(function () {
     Route::get('/', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/items/{orderId}', [OrderController::class, 'getOrderItemsAsAdmin'])->name('orders.items');
     Route::get('/show/{orderId}', [OrderController::class, 'getOrder']);
     Route::put('/{id}/update-status', [OrderController::class, 'updateStatus'])->name('updateStatus.orders');
-    Route::put('/{id}/update-status-item', [OrderController::class, 'updateOrderDetailStatus']);
+    Route::delete('/{id}/{force?}', [OrderController::class, 'deleteOrder']);
 
 });
 Route::prefix('reviews')->group(function () {
