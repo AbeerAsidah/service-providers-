@@ -106,8 +106,18 @@ class CategoryService
     public function show(int $id)
     {
         $category = Category::findOrFail($id);
+        $user = auth()->user();
 
-        return $category;
+        if (!$user) {
+            return new CategoryResource($category);
+        }
+    
+
+        if (auth()->user()->hasRole(Constants::ADMIN_ROLE)) {
+            return $category;
+        }
+    
+        return new CategoryResource($category);
     }
 
     

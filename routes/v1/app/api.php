@@ -2,6 +2,7 @@
 use App\Constants\Constants;
 use App\Http\Controllers\Api\General\Info\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Category\CategoryController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Service\ServiceController;
 use App\Http\Controllers\Api\Cart\CartItemController;
@@ -17,6 +18,20 @@ Route::post('check/verification-code', [AuthController::class, 'checkVerificatio
 Route::post('register', [AppAuthController::class, 'register'])->name('user.register');//
 Route::post('registerServiceProvider', [AppAuthController::class, 'registerServiceProvider'])->name('user.register');//
 
+
+Route::prefix('categories')->group(function () {
+    Route::get('/', [CategoryController::class, 'getAllForUser']);
+    Route::get('/{id}', [CategoryController::class, 'show']);
+    Route::get('/{categoryId}/services', [CategoryController::class, 'getServicesByCategory'])->name('getServicesByCategory');
+
+});
+
+Route::prefix('services')->group(function () {
+    Route::get('/', [ServiceController::class, 'index']); 
+    Route::get('/{id}', [ServiceController::class, 'show']); 
+    Route::post('/search', [ServiceController::class, 'searchServices']); 
+
+});
 
 Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants::USER_ROLE]], function () {
    
@@ -66,12 +81,7 @@ Route::middleware(['auth:api', 'role:' . Constants::SERVICE_PROVIDER_ROLE . '|' 
     Route::put('change-password', [AuthController::class, 'changePassword']);//
     Route::put('profile/update', [AuthController::class, 'updateProfile']);//
 
-    Route::prefix('services')->group(function () {
-        Route::get('/', [ServiceController::class, 'index']); 
-        Route::get('/{id}', [ServiceController::class, 'show']); 
-        Route::post('/search', [ServiceController::class, 'searchServices']); 
-
-    });
+   
     Route::prefix('reviews')->group(function () {
         Route::get('/{service}', [ReviewController::class, 'getReviewsByService']); 
         Route::get('/{service}/average', [ReviewController::class, 'getAverageRating']); 
