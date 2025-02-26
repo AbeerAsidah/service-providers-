@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Http\Requests\Api\Service\ChangeServiceStatusRequest;
+use Illuminate\Support\Facades\Log;
 
 
 class ServiceController extends Controller
@@ -27,10 +28,23 @@ class ServiceController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
+            $trashOnly = $request->input('trashOnly',false);
+            $paginate = $request->input('paginate', false);
+            $limit = $request->input('limit', 10);
+            $status = $request->input('status');
+
+
+            Log::info('service index request received', [
+                'trashOnly' => $trashOnly,
+                'status' => $status,
+                'paginate' => $paginate,
+                'limit' => $limit
+            ]);
+
             $services = $this->service->getAll(
-                $request->query('trashOnly', false), 
-                $request->query('paginate', false), 
-                $request->query('limit', 10)
+                $trashOnly,
+                $paginate,
+                $limit
             );
             return success(['services' => $services]);
         } catch (\Throwable $th) {

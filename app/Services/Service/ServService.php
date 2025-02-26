@@ -21,10 +21,14 @@ class ServService
      */
     public function getAll($trashOnly = false, $paginate = false, $limit = 10)
     {
-        $servicesQuery = Service::query();
 
-        if (auth()->user()->hasRole(Constants::SERVICE_PROVIDER_ROLE)) {
-            $servicesQuery = auth()->user()->services();
+
+        $servicesQuery = Service::query();
+        $user = auth()->user();
+    
+       
+        if ($user && $user->hasRole(Constants::SERVICE_PROVIDER_ROLE)) {
+            $query->where('service_provider_id', $user->id);
         }
 
         // Apply soft delete filter if requested
@@ -39,10 +43,12 @@ class ServService
 
         $services = $paginate ? $servicesQuery->paginate($limit) : $servicesQuery->get();
 
+        
         // If the logged-in user is a normal user, return as ServiceResource
-        if (auth()->user()->hasRole(Constants::USER_ROLE)) {
+        if (!$user || $user->hasRole(Constants::USER_ROLE)) {
             return ServiceResource::collection($services);
         }
+        
             return $servicesQuery->get();
         }
 
@@ -176,19 +182,25 @@ class ServService
      */
     public function show(int $id)
     {
-        // Retrieve the service along with related category and provider data
         $service = Service::with(['category', 'provider', 'reviews'])->findOrFail($id);
-        if (auth()->user()->hasRole(Constants::SERVICE_PROVIDER_ROLE) && $service->service_provider_id !== auth()->id()) {
-            return error(__('messages.unauthorized_action'), [], 403);
-        }
-
-            // If the logged-in user is a normal user, return as ServiceResource
-        if (auth()->user()->hasRole(Constants::USER_ROLE)) {
+    
+        $user = auth()->user();
+    
+        if (!$user) {
             return new ServiceResource($service);
         }
+    
+        if ($user->hasRole(Constants::SERVICE_PROVIDER_ROLE) && $service->service_provider_id !== $user->id) {
+            return error(__('messages.unauthorized_action'), [], 403);
+        }
+    
+        if ($user->hasRole(Constants::USER_ROLE)) {
+            return new ServiceResource($service);
+        }
+    
         return $service;
     }
-
+    
     /**
      * Change the status of a service.
      */
