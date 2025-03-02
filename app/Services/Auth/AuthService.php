@@ -158,9 +158,9 @@ class AuthService
             $authToVerify = [];
             // this part for activation after signup if needed .
             if ($this->user) {
-                if ($this->user->is_active) {
-                    throw new Exception(__('messages.you_have_already_activate_your_account'), 422);
-                }
+                // if ($this->user->is_active) {
+                //     throw new Exception(__('messages.you_have_already_activate_your_account'), 422);
+                // }
                 $authToVerify['user_id'] = $this->user->id;
                 AuthCode::where('user_id', $this->user->id)->delete();
 
