@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('withdraw_requests', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('provider_id')->constrained('users')->onDelete('cascade');
-            $table->decimal('amount', 10, 2);
+            $table->enum('type', ['earning', 'withdrawal']); 
+            $table->decimal('amount', 10, 2); 
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->string('bank_account')->nullable(); 
+            $table->boolean('processed_by_admin')->default(false); // هل تم التحويل يدوياً؟
             $table->softDeletes();
             $table->timestamps();
         });
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('withdraw_requests');
+        Schema::dropIfExists('transactions');
     }
 };

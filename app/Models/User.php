@@ -91,13 +91,24 @@ class User extends Authenticatable
         return $this->hasMany(Review::class);
     }
 
-    public function balance()
+    public function wallet()
     {
-        return $this->hasOne(ProviderBalance::class, 'provider_id');
+        return $this->hasOne(Wallet::class, 'user_id');
+    }
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'provider_id');
     }
 
-    public function withdrawRequests()
-    {
-        return $this->hasMany(WithdrawRequest::class, 'provider_id');
-    }
+    // public static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::created(function ($user) {
+    //         $user->wallet()->create([
+    //             'balance' => 0, 
+    //         ]);
+    //     });
+    // }
+
 }

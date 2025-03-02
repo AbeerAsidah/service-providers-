@@ -192,8 +192,7 @@ class OrderService
             'success' => true,
             'message' => __('messages.order_status_updated'),
             'order_status' => $order->status
-
-        ]);
+        ], 200);
     }
 
     public function getUserOrders(int $userId)

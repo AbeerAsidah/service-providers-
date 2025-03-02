@@ -34,7 +34,7 @@ class UpdateProfileRequest extends FormRequest
             'phone_number' => 'string|max:255|min:9',
             'password' => 'nullable|min:8|confirmed',
             'old_password' => 'required_with:password',
-            'image' => 'file|mimes:png,jpg,jpeg',
+            // 'image' => 'file|mimes:png,jpg,jpeg',
         ];
     }
 }

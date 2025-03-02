@@ -4,20 +4,16 @@ namespace App\Http\Controllers;
 
 /**
  * @OA\Info(
- *     title="Bahg aldiaa E-commerce Apis ",
+ *     title="Quick Fix Apis ",
  *     version="1.0.0",
- *     @OA\Contact(
- *         name="Yosof Bayan",
- *         url="https://wa.me/+963967213544",
- *         email="yosofbayan75@gmail.com"
- *     ),
+
  * )
  * @OA\Server(
  *     url="http://127.0.0.1:8000/api/v1",
  *     description="local Base URL"
  * )
  * @OA\Server(
- *     url="https://bahg-back.icrcompany.net/api/v1",
+ *     url="https://quickfix-back.icrcompany.net/api/v1",
  *     description="Develop Base URL"
  * )
  *

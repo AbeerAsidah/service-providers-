@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Cart\CartItemController;
 use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\Review\ReviewController;
 use App\Http\Controllers\Api\Auth\AuthController as AppAuthController;
+use App\Http\Controllers\Api\Wallet\WalletController;
 
 /** @Auth */
 Route::post('login', [AuthController::class, 'login'])->name('user.login');//
@@ -70,6 +71,12 @@ Route::group(['middleware' => ['auth:api', 'last.active', 'ability:' . Constants
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'getProviderOrders'])->name('orders.index');
 
+    });
+
+    Route::prefix('wallet')->group(function () {
+            Route::get('/', [WalletController::class, 'getBalance']);
+            Route::post('/withdraw', [WalletController::class, 'requestWithdrawal']);
+            Route::get('/withdrawals', [WalletController::class, 'getProviderWithdrawals']);
     });
 
 });

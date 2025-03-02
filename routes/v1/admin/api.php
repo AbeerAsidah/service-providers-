@@ -6,6 +6,9 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Category\CategoryController;
 use App\Http\Controllers\Api\Service\ServiceController;
 use App\Http\Controllers\Api\Order\OrderController;
+use App\Http\Controllers\Api\Wallet\WalletController;
+use App\Http\Controllers\Api\Review\ReviewController;
+use App\Http\Controllers\Api\User\UserController;
 
 
 
@@ -46,7 +49,11 @@ Route::prefix('users')->group(function () {
     // Route::post('/upload-identity-image', [AuthController::class, 'uploadIdentityImage']);
     Route::get('/pending-identity-image-requests', [AuthController::class, 'getPendingIdentityImageRequests']);
     Route::post('/approve-identity-image/{userId}', [AuthController::class, 'approveIdentityImage']);
-    
+    Route::get('/', [UserController::class, 'index']);
+    Route::get('/{id}', [UserController::class, 'show']);
+    Route::post('/', action: [UserController::class, 'store']);
+    Route::put('/{id}', [UserController::class, 'update']);
+    Route::delete('/{id}', [UserController::class, 'destroy']);
 });
 
 Route::prefix('categories')->group(function () {
@@ -73,6 +80,17 @@ Route::prefix('reviews')->group(function () {
 });
 
 
+
+Route::prefix('wallet')->group(function () {
+    Route::get('/withdrawals', [WalletController::class, 'getAllWithdrawals']);
+    Route::post('/withdrawals/{withdrawalId}/approve', [WalletController::class, 'approveWithdrawal']);
+    Route::post('/withdrawals/{withdrawalId}/reject', [WalletController::class, 'rejectWithdrawal']);
+    Route::post('/{userId}/update-balance', [WalletController::class, 'updateBalance']);
+    Route::post('/{userId}/add-balance', [WalletController::class, 'addBalance']);
+    Route::get('/balances', [WalletController::class, 'getAllBalances']);
+
+});
+    
 });
 
 

@@ -51,4 +51,51 @@ class Order extends Model
         return $this->hasOne(Payment::class);
     }
 
+//     public static function boot()
+// {
+//     parent::boot();
+
+//     static::updated(function ($order) {
+//         if ($order->status === Constants::ORDER_STATUSES['completed']) { 
+//             Transaction::create([
+//                 'provider_id' => $order->provider_id,
+//                 'type' => 'earning',
+//                 'amount' => $order->total_price,
+//                 'status' => 'approved'
+//             ]);
+
+//             $wallet = $order->provider->wallet;
+//             $wallet->increment('balance', $order->total_price);
+//         }
+//     });
+// }
+
+public static function boot()
+{
+    parent::boot();
+
+    static::updated(function ($order) {
+        if ($order->status === Constants::ORDER_STATUSES['completed']) { 
+            try {
+                if (!$order->provider->wallet) {
+                    throw new \Exception(__('messages.wallet_not_found'));
+                }
+
+                Transaction::create([
+                    'provider_id' => $order->provider_id,
+                    'type' => Constants::TRANSACTION_TYPES['earning'],
+                    'amount' => $order->total_price,
+                    'status' => Constants::TRANSACTION_STATUSES['approved']
+                ]);
+
+                app(WalletService::class)->addBalance($order->provider_id, $order->total_price);
+
+            } catch (\Exception $e) {
+                \Log::error('Error updating wallet balance: ' . $e->getMessage());
+            }
+        }
+    });
+}
+
+
 }
