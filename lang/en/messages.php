@@ -30,4 +30,19 @@ return [
     'review_deleted' => 'Review deleted successfully!',
     'reviews_fetched' => 'Reviews fetched successfully!',
     'average_rating_fetched' => 'Average rating fetched successfully!',
+
+    'unauthorized' => 'Unauthorized action.',
+    'min_amount' => 'The minimum amount must be :amount.',
+    'insufficient_balance' => 'Insufficient balance.',
+    'withdrawal_submitted' => 'Withdrawal request submitted successfully.',
+    'invalid_transaction' => 'Invalid transaction.',
+    'must_be_processed' => 'Money transfer must be processed manually before approval.',
+    'withdrawal_updated' => 'Withdrawal status updated successfully.',
+
+    'withdrawal_requested' => 'Withdrawal request submitted successfully.',
+    'withdrawal_approved' => 'Withdrawal approved successfully.',
+    'withdrawal_rejected' => 'Withdrawal request rejected.',
+    'balance_added' => 'Balance added successfully.',
+    'balance_updated' => 'Balance updated successfully.',
+    'all_balances_retrieved' => 'All balances retrieved successfully.',
 ];

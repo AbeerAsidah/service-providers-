@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('service_provider_id')->constrained('users')->onDelete('cascade');
             $table->json('name');
-            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade'); 
+            $table->unsignedBigInteger('category_id')->nullable()->constrained('categories')->onDelete('cascade');
             $table->json('description');
             $table->decimal('price', 10, 2);
             $table->integer('complete_time')->nullable();

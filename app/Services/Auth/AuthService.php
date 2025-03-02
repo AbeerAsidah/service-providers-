@@ -46,7 +46,7 @@ class AuthService
         // if ($request->read)
         //     $this->notificationService->readAllNotifications();
         return success(
-            UserRecourse::make($this->user?->load('images')),
+            UserResource::make($this->user?->load('images')),
             200
             // [
             //     'notifications' => $notifications,

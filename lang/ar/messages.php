@@ -27,4 +27,19 @@ return [
     'review_deleted' => 'تم حذف التقييم بنجاح!',
     'reviews_fetched' => 'تم جلب التقييمات بنجاح!',
     'average_rating_fetched' => 'تم جلب متوسط التقييم بنجاح!',
+
+    'unauthorized' => 'غير مصرح لك بتنفيذ هذا الإجراء.',
+    'min_amount' => 'يجب أن يكون الحد الأدنى للمبلغ :amount.',
+    'insufficient_balance' => 'الرصيد غير كافٍ لإتمام العملية.',
+    'withdrawal_submitted' => 'تم إرسال طلب السحب بنجاح.',
+    'invalid_transaction' => 'المعاملة غير صالحة.',
+    'must_be_processed' => 'يجب معالجة التحويل يدويًا قبل الموافقة.',
+    'withdrawal_updated' => 'تم تحديث حالة السحب بنجاح.',
+
+    'withdrawal_requested' => 'تم تقديم طلب السحب بنجاح.',
+    'withdrawal_approved' => 'تمت الموافقة على السحب بنجاح.',
+    'withdrawal_rejected' => 'تم رفض طلب السحب.',
+    'balance_added' => 'تمت إضافة الرصيد بنجاح.',
+    'balance_updated' => 'تم تحديث الرصيد بنجاح.',
+    'all_balances_retrieved' => 'تم استرجاع جميع الأرصدة بنجاح.',
 ];

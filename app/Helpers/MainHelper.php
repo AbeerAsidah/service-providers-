@@ -130,11 +130,12 @@ if (!function_exists('languageJson')) {
         return $result;
     }
 }
-
-
 if (!function_exists('error')) {
     function error(string $message = null, $errors = null, $code = 401)
     {
+        // تحويل $code إلى int إذا كان string
+        $code = intval($code);
+
         return response()->json([
             'message' => $message,
             'errors' => $errors ?? [$message],
@@ -142,21 +143,32 @@ if (!function_exists('error')) {
         ], (($code < 400 or $code > 503) ? 500 : $code));
     }
 }
+
 if (!function_exists('success')) {
-    function success($data = null, int $code = Response::HTTP_OK, $additionalData = [])
+    function success($data = null, int $code = Response::HTTP_OK, array $additionalData = [])
     {
-        return response()->json(
-            array_merge([
-                'data' => $data ?? ['success' => true],
-                'code' => $code
-            ], $additionalData),
-            $code
-        );
+        // تحويل $code إلى int إذا كان string
+        $code = intval($code);
+
+        // التأكد أن $code ضمن نطاق رموز الحالة الصحيحة
+        $code = ($code >= 100 && $code <= 599) ? $code : Response::HTTP_OK;
+
+        $responseData = $data ?? ['success' => true];
+
+        $mergedData = array_merge([
+            'data' => $responseData,
+            'code' => $code
+        ], $additionalData);
+
+        return response()->json($mergedData, $code);
     }
 }
 if (!function_exists('throwError')) {
     function throwError($message, $errors = null, int $code = Response::HTTP_UNPROCESSABLE_ENTITY)
     {
+        // تحويل $code إلى int إذا كان string
+        $code = intval($code);
+
         throw new HttpResponseException(response()->json(
             [
                 'message' => $message,
