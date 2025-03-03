@@ -223,7 +223,7 @@ class ServService
         public function searchServices($searchTerm, $paginate = false, $limit = 10)
     {
         $query = Service::query()->with(['category', 'provider']);
-
+        $user = auth()->user();
         $searchTerm = mb_strtolower($searchTerm, 'UTF-8');
 
         $query->where(function ($q) use ($searchTerm) {
@@ -242,7 +242,7 @@ class ServService
             ->orWhere('phone', 'LIKE', "%$searchTerm%");
         });
 
-        if (auth()->user()->hasRole(Constants::SERVICE_PROVIDER_ROLE)) {
+        if ($user && $user->hasRole(Constants::SERVICE_PROVIDER_ROLE)) {
             $query->where('service_provider_id', auth()->id());
         }
 
@@ -254,6 +254,52 @@ class ServService
 
         return $query->get();
     }
+
+    public function search($searchTerm, $categoryId = null, $minPrice = null, $maxPrice = null, $providerId = null, $paginate = null, $limit = 10)
+    {
+        $searchTerm = strtolower($searchTerm); 
+    
+        $query = Service::query()
+            ->with(['provider', 'category', 'reviews'])
+            ->where('status', 'active') 
+            ->where(function ($q) use ($searchTerm) {
+                $q->whereRaw('LOWER(name) LIKE ?', ['%' . $searchTerm . '%'])
+                  ->orWhereRaw('LOWER(description) LIKE ?', ['%' . $searchTerm . '%'])
+                  ->orWhereHas('category', function ($q) use ($searchTerm) {
+                      $q->whereRaw('LOWER(name) LIKE ?', ['%' . $searchTerm . '%']);
+                  })
+                  ->orWhereHas('provider', function ($q) use ($searchTerm) {
+                      $q->whereRaw('LOWER(name) LIKE ?', ['%' . $searchTerm . '%']);
+                  });
+            });
+    
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+    
+        if ($minPrice) {
+            $query->where('price', '>=', $minPrice);
+        }
+    
+        if ($maxPrice) {
+            $query->where('price', '<=', $maxPrice);
+        }
+    
+        if ($providerId) {
+            $query->where('service_provider_id', $providerId);
+        }
+        $query->orderByDesc('created_at');
+        $products = $query->get(); 
+
+        $productData =  ServiceResource::collection($products);
+        if ($paginate) {        
+            paginate($productData, $limit);
+            
+        }
+
+        return $productData;
+        }
+    
 
 
 

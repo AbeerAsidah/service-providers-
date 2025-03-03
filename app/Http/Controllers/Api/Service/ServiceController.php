@@ -134,8 +134,12 @@ class ServiceController extends Controller
             $searchTerm = $request->input('search_term');
             $paginate = $request->input('paginate', false);
             $limit = $request->input('limit', 10);
+            $categoryId = $request->input('category_id');
+            $providerId = $request->input('provider_id');
+            $maxPrice = $request->input('max_price');
+            $minPrice = $request->input('min_price');
 
-            $services = $this->service->searchServices($searchTerm, $paginate, $limit);
+            $services = $this->service->search($searchTerm, $categoryId, $minPrice, $maxPrice, $providerId, $paginate, $limit);
 
             return success([
                 'services' => $services,

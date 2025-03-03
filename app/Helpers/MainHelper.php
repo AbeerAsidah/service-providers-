@@ -150,7 +150,6 @@ if (!function_exists('success')) {
         // تحويل $code إلى int إذا كان string
         $code = intval($code);
 
-        // التأكد أن $code ضمن نطاق رموز الحالة الصحيحة
         $code = ($code >= 100 && $code <= 599) ? $code : Response::HTTP_OK;
 
         $responseData = $data ?? ['success' => true];
