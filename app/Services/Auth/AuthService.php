@@ -214,7 +214,7 @@ class AuthService
         // $notifications = $this->notificationService->getAllNotifications();
 
         return success(
-            UserRecourse::make(User::with('images')->where('id', $this->user->id)->first()),
+            UserResource::make(User::with('images')->where('id', $this->user->id)->first()),
             200
             // [
             //     'notifications' => $notifications ?? null,
