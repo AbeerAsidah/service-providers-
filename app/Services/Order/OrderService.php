@@ -190,7 +190,7 @@ class OrderService
     
         return response()->json([
             'success' => true,
-            'message' => __('messages.order_status_updated'),
+            'message' => __('messages.status_updated'),
             'order_status' => $order->status
         ], 200);
     }

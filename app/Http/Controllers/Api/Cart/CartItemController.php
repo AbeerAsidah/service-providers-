@@ -46,9 +46,7 @@ class CartItemController extends Controller
         try {
             $cart = $this->cartService->getCart(auth()->id());
             return success([
-                'data' => [
                     'cart' => $cart,
-                ],
                 'message' => __('messages.cart_fetched'),
             ]);
         } catch (Exception $e) {

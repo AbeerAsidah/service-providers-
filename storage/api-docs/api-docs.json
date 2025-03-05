@@ -1,12 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Bahg aldiaa E-commerce Apis ",
-        "contact": {
-            "name": "Yosof Bayan",
-            "url": "https://wa.me/+963967213544",
-            "email": "yosofbayan75@gmail.com"
-        },
+        "title": "Quick Fix Apis ",
         "version": "1.0.0"
     },
     "servers": [
@@ -15,7 +10,7 @@
             "description": "local Base URL"
         },
         {
-            "url": "https://bahg-back.icrcompany.net/api/v1",
+            "url": "https://quickfix-back.icrcompany.net/api/v1",
             "description": "Develop Base URL"
         }
     ],
@@ -309,27 +304,6 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2023-01-01T00:00:00Z"
-                    }
-                },
-                "type": "object"
-            },
-            "ReviewResource": {
-                "title": "ReviewResource",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "deleted_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
                     }
                 },
                 "type": "object"
