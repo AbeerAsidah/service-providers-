@@ -45,4 +45,7 @@ return [
     'balance_added' => 'Balance added successfully.',
     'balance_updated' => 'Balance updated successfully.',
     'all_balances_retrieved' => 'All balances retrieved successfully.',
+
+    'data_fetched_successfully' => 'Data fetched successfully.',
+    'failed_to_fetch_data' => 'Failed to fetch data.',
 ];

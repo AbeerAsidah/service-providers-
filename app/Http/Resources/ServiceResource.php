@@ -18,6 +18,9 @@ class ServiceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        $averageRating = $this->reviews->avg('rating') ?? 0;
+
         return [
             'id' => $this->id,
             'provider' => $this->whenLoaded('provider', function () {
@@ -35,6 +38,7 @@ class ServiceResource extends JsonResource
             'status' => $this->status,
             'image' => $this->image ? asset("storage/{$this->image}") : null,
             'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
+            'average_rating' => $averageRating, 
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
 

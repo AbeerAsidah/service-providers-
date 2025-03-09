@@ -300,7 +300,17 @@ class ServService
         return $productData;
         }
     
-
+        public function getTrendingServices()
+        {
+            $trendingServices = Service::withAvg('reviews', 'rating') // متوسط التقييمات
+            ->with(['category', 'provider', 'reviews']) // تحميل الفئة ومقدم الخدمة
+            ->orderByDesc('reviews_avg_rating') // ترتيب حسب متوسط التقييمات
+            ->take(10) // جلب أول 10 خدمات
+            ->get();
+        
+        
+            return $trendingServices;
+        }
 
 
         

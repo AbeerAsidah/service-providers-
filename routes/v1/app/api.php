@@ -1,12 +1,12 @@
 <?php
 use App\Constants\Constants;
-use App\Http\Controllers\Api\General\Info\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Category\CategoryController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Service\ServiceController;
 use App\Http\Controllers\Api\Cart\CartItemController;
 use App\Http\Controllers\Api\Order\OrderController;
+use App\Http\Controllers\Api\Home\HomeController;
 use App\Http\Controllers\Api\Review\ReviewController;
 use App\Http\Controllers\Api\Auth\AuthController as AppAuthController;
 use App\Http\Controllers\Api\Wallet\WalletController;
@@ -19,6 +19,9 @@ Route::post('check/verification-code', [AuthController::class, 'checkVerificatio
 Route::post('register', [AppAuthController::class, 'register'])->name('user.register');//
 Route::post('registerServiceProvider', [AppAuthController::class, 'registerServiceProvider'])->name('user.register');//
 
+Route::prefix("/home")->group(function () {
+    Route::get('/', [HomeController::class, 'index']);
+});
 
 Route::prefix('categories')->group(function () {
     Route::get('/', [CategoryController::class, 'getAllForUser']);

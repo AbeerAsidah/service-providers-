@@ -42,4 +42,7 @@ return [
     'balance_added' => 'تمت إضافة الرصيد بنجاح.',
     'balance_updated' => 'تم تحديث الرصيد بنجاح.',
     'all_balances_retrieved' => 'تم استرجاع جميع الأرصدة بنجاح.',
+
+    'data_fetched_successfully' => 'تم جلب البيانات بنجاح',
+    'failed_to_fetch_data' => 'فشل في جلب البيانات',
 ];
