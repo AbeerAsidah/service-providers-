@@ -44,7 +44,7 @@ class OrderResource extends JsonResource
             'status_name' =>  $this->status,
             // 'status' => __('orders.' . $this->status),
             // 'payment_id' => $this->payment_id,        
-            'complete_time_unit' => $this->complete_time_unit,
+            // 'complete_time_unit' => $this->complete_time_unit,
             'complete_time' => $this->complete_time,
             'service' => $this->whenLoaded('service', fn() => new ServiceResource($this->service), __('messages.service_not_available')),
             'provider' => $this->whenLoaded('provider', fn() => [

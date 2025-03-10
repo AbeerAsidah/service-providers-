@@ -302,10 +302,10 @@ class ServService
     
         public function getTrendingServices()
         {
-            $trendingServices = Service::withAvg('reviews', 'rating') // متوسط التقييمات
-            ->with(['category', 'provider', 'reviews']) // تحميل الفئة ومقدم الخدمة
-            ->orderByDesc('reviews_avg_rating') // ترتيب حسب متوسط التقييمات
-            ->take(10) // جلب أول 10 خدمات
+            $trendingServices = Service::withAvg('reviews', 'rating') 
+            ->with(['category', 'provider', 'reviews']) 
+            ->orderByDesc('reviews_avg_rating') 
+            ->take(10) 
             ->get();
         
         

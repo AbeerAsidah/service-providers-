@@ -33,7 +33,9 @@ class StoreCategoryRequest extends FormRequest
             'ar_name' => 'required|string|max:255',
             'en_name' => 'required|string|max:255', 
             'ar_description' => 'required|string|max:1000',
-            'en_description' => 'required|string|max:1000',   
+            'en_description' => 'required|string|max:1000',  
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+ 
              ];
     }
 }

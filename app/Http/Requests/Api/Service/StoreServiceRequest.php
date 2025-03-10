@@ -21,8 +21,8 @@ class StoreServiceRequest extends FormRequest
             'ar_description' => 'nullable|string',
             'en_description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'complete_time' => 'required|integer|min:1',
-            'complete_time_unit' => 'required|in:minutes,hours,days', 
+            'complete_time' => 'required|string',
+            // 'complete_time_unit' => 'required|in:minutes,hours,days', 
             // 'status' => 'required|in:active,disabled',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ];

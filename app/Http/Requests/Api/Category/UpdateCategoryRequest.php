@@ -34,7 +34,9 @@ class UpdateCategoryRequest extends FormRequest
             'ar_name' => 'nullable|string|max:255', 
             'en_name' => 'nullable|string|max:255',
             'ar_description' => 'nullable|string|max:1000', 
-            'en_description' => 'nullable|string|max:1000',     
+            'en_description' => 'nullable|string|max:1000',   
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+  
            ];
     }
 }

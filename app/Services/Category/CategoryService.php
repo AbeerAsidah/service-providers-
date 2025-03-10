@@ -5,10 +5,10 @@ namespace App\Services\Category;
 use App\Models\Category;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ServiceResource;
-
+use Illuminate\Support\Facades\Storage;
+use App\Constants\Constants;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Api\Category\StoreCategoryRequest;
 use App\Http\Requests\Api\Category\UpdateCategoryRequest;
 
@@ -48,6 +48,9 @@ class CategoryService
             'ar' => $data['ar_description'],
             'en' => $data['en_description'],
         ];
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->storePublicly('categories/images', 'public');
+        }
 
         $category = Category::create($data);
         return $category;
@@ -69,6 +72,15 @@ class CategoryService
         }
         if (isset($data['en_description'])) {
             $data['description']['en'] = $data['en_description'];
+        }
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->storePublicly('categories/images', 'public');
+
+            // Delete old image if exists
+            if (Storage::exists("public/$category->image")) {
+                Storage::delete("public/$category->image");
+            }
         }
 
         $category->update($data);

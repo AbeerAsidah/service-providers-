@@ -51,7 +51,7 @@ class OrderService
                         'service_id' => $item->service_id,
                         'provider_id' => $item->service->service_provider_id ?? '1',
                         'price' => $item->service->price,
-                        'complete_time_unit' => $item->service->complete_time_unit ?? 'minutes',
+                        // 'complete_time_unit' => $item->service->complete_time_unit ?? 'minutes',
                         'complete_time' => $item->service->complete_time,
                         'quantity' => $item->quantity,
                         'total_price' => $subtotal,

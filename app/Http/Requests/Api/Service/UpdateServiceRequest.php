@@ -21,8 +21,8 @@ class UpdateServiceRequest extends FormRequest
             'ar_description' => 'nullable|string',
             'en_description' => 'nullable|string',
             'price' => 'nullable|numeric|min:0',
-            'complete_time' => 'nullable|integer|min:1',
-            'complete_time_unit' => 'nullable|in:minutes,hours,days', 
+            'complete_time' => 'required|string',
+            // 'complete_time_unit' => 'nullable|in:minutes,hours,days', 
             'status' => 'nullable|in:active,disabled',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ];
