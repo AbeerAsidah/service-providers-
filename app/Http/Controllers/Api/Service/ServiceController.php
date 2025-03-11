@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Service;
 
 use App\Http\Controllers\Controller;
+use App\Services\Category\CategoryService;
 use App\Services\Service\ServService;
 use App\Http\Requests\Api\Service\StoreServiceRequest;
 use App\Http\Requests\Api\Service\UpdateServiceRequest;
@@ -16,10 +17,12 @@ use Illuminate\Support\Facades\Log;
 class ServiceController extends Controller
 {
     protected ServService $service;
+    protected CategoryService $categoryService;
 
-    public function __construct(ServService $service)
+    public function __construct(ServService $service, CategoryService $categoryService)
     {
         $this->service = $service;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -72,7 +75,15 @@ class ServiceController extends Controller
     {
         try {
             $service = $this->service->show($id);
-            return success(['service' => $service]);
+            $categories = $this->categoryService->getAll();
+
+            return success([
+                'service' => $service,
+                'extraData' => [
+                    'categories' => $categories
+                ]
+            ]);
+            // return success(['service' => $service]);
         } catch (\Throwable $th) {
             return error($th->getMessage(), [$th->getMessage()], 404);
         }
