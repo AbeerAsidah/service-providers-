@@ -45,4 +45,8 @@ return [
 
     'data_fetched_successfully' => 'تم جلب البيانات بنجاح',
     'failed_to_fetch_data' => 'فشل في جلب البيانات',
+
+    'wallet_not_found' => 'المحفظة غير موجودة.',
+    'insufficient_balance' => 'الرصيد غير كافٍ لإتمام العملية.',
+    'invalid_transaction' => 'المعاملة غير صالحة.',
 ];

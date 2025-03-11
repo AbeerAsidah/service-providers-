@@ -48,4 +48,8 @@ return [
 
     'data_fetched_successfully' => 'Data fetched successfully.',
     'failed_to_fetch_data' => 'Failed to fetch data.',
+
+    'wallet_not_found' => 'Wallet not found.',
+    'insufficient_balance' => 'Insufficient balance to complete the transaction.',
+    'invalid_transaction' => 'Invalid transaction.',
 ];

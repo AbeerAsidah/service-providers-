@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ReviewResource;
+use App\Services\Wallet\WalletService; 
 
 
 class ServiceResource extends JsonResource
@@ -18,15 +19,18 @@ class ServiceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $walletService = app(WalletService::class);
 
         $averageRating = $this->reviews->avg('rating') ?? 0;
 
         return [
             'id' => $this->id,
-            'provider' => $this->whenLoaded('provider', function () {
+            'provider' => $this->whenLoaded('provider', function () use ($walletService) {
                 return [
                     'name' => $this->provider->username,
                     'phone_number' => $this->provider->phone_number,
+                    'wallet_balance' => $walletService->getBalance($this->provider->id), 
+
                 ];
             }),       
             'category' => new CategoryResource($this->whenLoaded('category')),
