@@ -40,16 +40,22 @@ class ServService
         
         // Load the associated category and provider relationships
         $servicesQuery->with(['category', 'provider', 'reviews']);
+        $services = $servicesQuery->get();
 
-        $services = $paginate ? $servicesQuery->paginate($limit) : $servicesQuery->get();
 
         
-        // If the logged-in user is a normal user, return as ServiceResource
         if (!$user || $user->hasRole(Constants::USER_ROLE)) {
-            return ServiceResource::collection($services);
+            $services = ServiceResource::collection($services->load('reviews', 'provider', 'category'));
+
         }
+
+        if ($paginate) {
+            paginate($services, $limit);
+
+        }
+
         
-            return $servicesQuery->get();
+            return $services;
         }
 
     /**
