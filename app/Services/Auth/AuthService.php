@@ -187,6 +187,13 @@ class AuthService
     {
 
         $data = $request->validated();
+        
+        if (isset($data['ar_about'])) {
+            $data['about']['ar'] = $data['ar_about'];
+        }
+        if (isset($data['en_about'])) {
+            $data['about']['en'] = $data['en_about'];
+        }
         if ($request->has('password')) {
             if (!Hash::check($request->old_password, $this->user->password)) {
                 throw new Exception(__('messages.wrong_old_password'), 422);

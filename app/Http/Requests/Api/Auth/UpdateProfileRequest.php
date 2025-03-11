@@ -35,6 +35,8 @@ class UpdateProfileRequest extends FormRequest
             'password' => 'nullable|min:8|confirmed',
             'old_password' => 'required_with:password',
             // 'image' => 'file|mimes:png,jpg,jpeg',
+            'ar_about' => 'nullable|string|max:255',
+            'en_about' => 'nullable|string|max:255',
         ];
     }
 }

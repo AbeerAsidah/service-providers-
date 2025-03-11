@@ -27,8 +27,10 @@ class ServiceResource extends JsonResource
             'id' => $this->id,
             'provider' => $this->whenLoaded('provider', function () use ($walletService) {
                 return [
+                    'id' => $this->provider->id,
                     'name' => $this->provider->username,
                     'phone_number' => $this->provider->phone_number,
+                    'about' => $this->provider->about,
                     'wallet_balance' => $walletService->getBalance($this->provider->id), 
 
                 ];

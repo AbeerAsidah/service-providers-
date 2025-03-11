@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
+use Spatie\Translatable\HasTranslations;
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens, HasRoles, SoftDeletes;
+    use HasFactory, Notifiable, HasApiTokens, HasRoles, SoftDeletes, HasTranslations;
 
 
     /**
@@ -29,6 +29,7 @@ class User extends Authenticatable
         'phone_number',
         'email_verified_at',
         'password',
+        'about',
         'is_active',
         'identity_image',
         'identity_image_verified_at',
@@ -45,6 +46,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    public $translatable = ['about'];
 
     /**
      * Get the attributes that should be cast.

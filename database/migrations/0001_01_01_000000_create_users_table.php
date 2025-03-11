@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->json('about')->nullable();
             $table->dateTime('last_active_at')->nullable();
             $table->boolean('is_active')->default(1);
             $table->string('identity_image')->nullable();
