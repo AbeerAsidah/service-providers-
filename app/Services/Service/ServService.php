@@ -28,7 +28,7 @@ class ServService
     
        
         if ($user && $user->hasRole(Constants::SERVICE_PROVIDER_ROLE)) {
-            $query->where('service_provider_id', $user->id);
+            $servicesQuery->where('service_provider_id', $user->id);
         }
 
         // Apply soft delete filter if requested
