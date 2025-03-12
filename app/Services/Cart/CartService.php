@@ -56,12 +56,11 @@ class CartService
                 ->where('user_id', $userId)
                 ->get();
 
-            // حساب إجمالي السعر
             $totalPrice = $cartItems->sum(fn ($item) => $item->service->price ?? 0);
 
             return [
                 'cart_items' => CartItemResource::collection($cartItems),
-                'total_price' => $totalPrice, // إجمالي السعر
+                'total_price' => $totalPrice,
             ];
         } catch (Exception $e) {
             Log::error('Error fetching cart: ' . $e->getMessage());

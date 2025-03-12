@@ -31,7 +31,7 @@ class OrderService
     {
         $validated = $request->all();
         $userId = Auth::id();
-        $cartItems = collect($this->cartService->getCart($userId));
+        $cartItems = collect($this->cartService->getCart($userId)['cart_items']);
 
         if ($cartItems->isEmpty()) {
             return response()->json(['message' => __('messages.cart_empty')], 400);
