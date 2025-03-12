@@ -18,7 +18,7 @@ class Service extends Model
     ];
     public $translatable = ['name', 'description'];
 
-    protected $appends = ['provider1'];
+    protected $appends = ['provider1', 'reviews1'];
 
     public function provider()
     {
@@ -56,6 +56,29 @@ class Service extends Model
                 'provider_avg_rating' => $reviewService->getUserAverageRating($provider->id),
             ];
     }
+    protected function getReviews1Attribute()
+    {
+        if (!$this->relationLoaded('reviews')) {
+            $this->load('reviews');
+        }
+    
+        $reviews = $this->reviews;
+    
+        if ($reviews->isEmpty()) { 
+            return [
+                'reviews' => [],
+                'Average_Rating' => null,
+            ];
+        }
+    
+        $reviewService = app()->make(\App\Services\Review\ReviewService::class);
+    
+        return [
+            'reviews' => $reviews,
+            'Average_Rating' => $reviewService->getAverageRating($this->id), 
+        ];
+    }
+    
     
 
 
