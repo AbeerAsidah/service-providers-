@@ -18,7 +18,7 @@ class Service extends Model
     ];
     public $translatable = ['name', 'description'];
 
-    protected $appends = ['provider'];
+    protected $appends = ['provider1'];
 
     public function provider()
     {
@@ -31,7 +31,7 @@ class Service extends Model
     }
 
 
-    protected function getProviderAttribute()
+    protected function getProvider1Attribute()
     {
             if (!$this->relationLoaded('provider')) {
                 $this->load('provider');
