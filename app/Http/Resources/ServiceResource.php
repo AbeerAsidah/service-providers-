@@ -8,6 +8,8 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ReviewResource;
 use App\Services\Wallet\WalletService; 
+use App\Services\Review\ReviewService; 
+
 
 
 class ServiceResource extends JsonResource
@@ -20,18 +22,21 @@ class ServiceResource extends JsonResource
     public function toArray(Request $request): array
     {
         $walletService = app(WalletService::class);
+        $reviewService = app(ReviewService::class);
+
 
         $averageRating = $this->reviews->avg('rating') ?? 0;
 
         return [
             'id' => $this->id,
-            'provider' => $this->whenLoaded('provider', function () use ($walletService) {
+            'provider' => $this->whenLoaded('provider', function () use ($walletService, $reviewService) {
                 return [
                     'id' => $this->provider->id,
                     'name' => $this->provider->username,
                     'phone_number' => $this->provider->phone_number,
                     'about' => $this->provider->about,
-                    'wallet_balance' => $walletService->getBalance($this->provider->id), 
+                    'wallet_balance' => $walletService->getBalance($this->provider->id),
+                    'provider_avg_rating' => $reviewService->getUserAverageRating($this->provider->id),
 
                 ];
             }),       

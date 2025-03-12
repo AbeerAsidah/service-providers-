@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->json('about')->nullable();
+            // $table->float('average_rating')->default(0);
             $table->dateTime('last_active_at')->nullable();
             $table->boolean('is_active')->default(1);
             $table->string('identity_image')->nullable();
