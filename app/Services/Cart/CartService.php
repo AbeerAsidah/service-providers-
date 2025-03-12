@@ -52,11 +52,17 @@ class CartService
     public function getCart(int $userId)
     {
         try {
-                return CartItemResource::collection(
-                    CartItem::with(['service', 'service.provider', 'service.category'])
-                        ->where('user_id', $userId)
-                        ->get()
-                );
+                $cartItems = CartItem::with(['service', 'service.provider', 'service.category'])
+                ->where('user_id', $userId)
+                ->get();
+
+            // حساب إجمالي السعر
+            $totalPrice = $cartItems->sum(fn ($item) => $item->service->price ?? 0);
+
+            return [
+                'cart_items' => CartItemResource::collection($cartItems),
+                'total_price' => $totalPrice, // إجمالي السعر
+            ];
         } catch (Exception $e) {
             Log::error('Error fetching cart: ' . $e->getMessage());
             throw new Exception('Failed to fetch cart.');
